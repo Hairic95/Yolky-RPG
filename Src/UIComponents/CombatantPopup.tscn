@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Fonts/lazypixie.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Src/UIComponents/CombatantPopup.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 5
+outline_size = 1
+outline_color = Color( 0.937255, 0.847059, 0.631373, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Popup"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Text:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -20, -8 ), Vector2( -20, -20 ), Vector2( -20, -8 ) ]
+}
+
+[node name="CombatantPopup" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Text" type="Label" parent="."]
+margin_left = -20.0
+margin_top = -8.0
+margin_right = 20.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.333333, 0.0588235, 0.0392157, 1 )
+text = "DEATH"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Popup = SubResource( 2 )
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

@@ -8,7 +8,13 @@
 			"speed" : 5
 		},
 		"model" : "Yolky1Model",
-		"moves" : []
+		"actions" : 
+		[
+			"test_magic",
+			"test_ranged",
+			"test",
+			"test_ranged"
+		]
 	},
 	"yolky2" : 
 	{
@@ -19,7 +25,13 @@
 			"speed" : 5
 		},
 		"model" : "Yolky2Model",
-		"moves" : []
+		"actions" : 
+		[
+			"test_magic",
+			"test_ranged",
+			"test_ranged",
+			"test"
+		]
 	},
 	"yolky3" : 
 	{
@@ -30,7 +42,13 @@
 			"speed" : 5
 		},
 		"model" : "Yolky3Model",
-		"moves" : []
+		"actions" : 
+		[
+			"test_magic",
+			"test",
+			"test_ranged",
+			"test"
+		]
 	},
 	"shruumo" : 
 	{
@@ -41,7 +59,13 @@
 			"speed" : 5
 		},
 		"model" : "ShruumoModel",
-		"moves" : []
+		"actions" : 
+		[
+			"test",
+			"test",
+			"test",
+			"test_magic"
+		]
 	},
 	"wisperina" : 
 	{
@@ -52,7 +76,13 @@
 			"speed" : 5
 		},
 		"model" : "WisperinaModel",
-		"moves" : []
+		"actions" : 
+		[
+			"test",
+			"test",
+			"test_magic",
+			"test"
+		]
 	},
 	"bomborolo" : 
 	{
@@ -63,6 +93,12 @@
 			"speed" : 5
 		},
 		"model" : "BomboroloModel",
-		"moves" : []
+		"actions" : 
+		[
+			"test",
+			"test",
+			"test",
+			"test_magic"
+		]
 	},
 }

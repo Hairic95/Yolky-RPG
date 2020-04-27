@@ -11,11 +11,15 @@ var stats : Dictionary = {
 	"speed" : 1
 }
 
-var moves : Array = []
+var row_position : int = 1
+
+var actions : Array = []
 
 var data_tag : String = ""
 
 var is_under_player_control : bool = false
+
+var player_owner = "enemy"
 
 # Animation
 
@@ -38,9 +42,17 @@ func Combatant(dict_data : Dictionary, starting_position : Vector2):
 		var new_model = load(str("res://Assets/Models/",dict_data.model,".tscn")).instance()
 		if new_model is Model:
 			model = new_model
+			
+			# animation signal connection
+			model.connect("create_popup", self, "create_popup")
+			model.connect("dead", self, "delete_on_death")
+			model.connect("attack", self, "attack_enemy")
+			
 			add_child(new_model)
-	if dict_data.has("moves"):
-		moves = dict_data.moves
+	if dict_data.has("actions"):
+		for action_data in dict_data.actions:
+			var new_action = Action.new(DataHandler.get_action(action_data))
+			actions.append(new_action)
 	
 	# Position setting
 	fixed_position = starting_position
@@ -60,7 +72,7 @@ func add_new_animation(position : Vector2, anim_name : String):
 func play_first_animation():
 	if animation_stack.size() == 0:
 		is_playing_animation = false
-		# Todo create and emit signal
+		BattleTurnHandler.emit_signal("combat_animation_ended")
 		z_index = 0
 		return
 	
@@ -68,6 +80,7 @@ func play_first_animation():
 	is_playing_animation = true
 	
 	var anim_to_execute = animation_stack.pop_front()
+	
 	$MovementTween.interpolate_property(self, "position", position, anim_to_execute.pos, 
 										model.get_anim_length(anim_to_execute.anim_name), 
 										Tween.TRANS_LINEAR, Tween.EASE_IN)
@@ -78,10 +91,54 @@ func play_first_animation():
 func on_movement_tween_completed():
 	play_first_animation()
 
+func attack_enemy():
+	BattleTurnHandler.emit_signal("damage_targets")
+
 func attack_to_position(attack_position : Vector2):
 	if !is_playing_animation:
 		add_new_animation(attack_position + Vector2(-20, 0), "Moving")
 		add_new_animation(attack_position + Vector2(-15, 0), "Attacking")
 		add_new_animation(Vector2.ZERO, "Idle")
 		play_first_animation()
-		z_index = 1
+		z_index = 2
+
+func get_damaged():
+	if current_hp > 0:
+		model.play("Damaged")
+	else:
+		model.play("Dying")
+	
+	create_popup("damage")
+	
+	z_index = 1
+
+# Stats handling
+
+func get_speed():
+	if stats.has("speed"):
+		return stats.speed
+
+func _on_CharacterButton_pressed():
+	BattleTurnHandler.emit_signal("combatant_selected", self)
+
+func get_hurt(damage):
+	current_hp = max(current_hp - damage, 0)
+	if current_hp == 0:
+		latest_damage_taken = "Dead"
+	else:
+		latest_damage_taken = str(damage)
+
+# Button
+
+func disable_button(value : bool):
+	$CharacterButton.disabled = value
+
+# Popup
+
+var latest_damage_taken : String = ""
+
+func create_popup(type):
+	BattleTurnHandler.emit_signal("create_popup_at", type, latest_damage_taken, position + Vector2(0, -32))
+
+func delete_on_death():
+	BattleTurnHandler.emit_signal("combatant_died", self)

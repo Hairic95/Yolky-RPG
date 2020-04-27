@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Action",
+"language": "GDScript",
+"path": "res://Src/Entities/Action.gd"
+}, {
 "base": "Node2D",
 "class": "Combatant",
 "language": "GDScript",
@@ -20,15 +25,21 @@ _global_script_classes=[ {
 "path": "res://Assets/Models/Model.gd"
 } ]
 _global_script_class_icons={
+"Action": "",
 "Combatant": "",
 "Model": ""
 }
 
 [application]
 
-config/name="Speed Gamedev Rpg"
+config/name="Yolky RPG"
 run/main_scene="res://Src/Scenes/BattleScene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+DataHandler="*res://Src/Autoloads/DataHandler.gd"
+BattleTurnHandler="*res://Src/Autoloads/BattleTurnHandler.gd"
 
 [display]
 
@@ -36,7 +47,7 @@ window/size/width=240
 window/size/height=135
 window/size/test_width=720
 window/size/test_height=405
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 
 [rendering]
 

@@ -1,0 +1,26 @@
+{
+	"test" : 
+	{
+		"name" : "Test Basic",		
+		"damage" : 2,
+		"target" : ["#", "#", "."],
+		"type" : "Normal",
+		"effects" : [],
+	},
+	"test_ranged" : 
+	{
+		"name" : "Test Ranged",		
+		"damage" : 2,
+		"target" : [".", "#", "#"],
+		"type" : "Normal",
+		"effects" : [],
+	},
+	"test_magic" : 
+	{
+		"name" : "Test Magic",		
+		"damage" : 10,
+		"target" : ["#", "#", "#"],
+		"type" : "Magic",
+		"effects" : [],
+	},
+}
