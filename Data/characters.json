@@ -1,0 +1,68 @@
+{
+	"yolky1" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "Yolky1Model",
+		"moves" : []
+	},
+	"yolky2" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "Yolky2Model",
+		"moves" : []
+	},
+	"yolky3" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "Yolky3Model",
+		"moves" : []
+	},
+	"shruumo" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "ShruumoModel",
+		"moves" : []
+	},
+	"wisperina" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "WisperinaModel",
+		"moves" : []
+	},
+	"bomborolo" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 5
+		},
+		"model" : "BomboroloModel",
+		"moves" : []
+	},
+}

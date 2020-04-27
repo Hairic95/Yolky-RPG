@@ -1,0 +1,46 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Combatant",
+"language": "GDScript",
+"path": "res://Src/Entities/Combatant.gd"
+}, {
+"base": "Node2D",
+"class": "Model",
+"language": "GDScript",
+"path": "res://Assets/Models/Model.gd"
+} ]
+_global_script_class_icons={
+"Combatant": "",
+"Model": ""
+}
+
+[application]
+
+config/name="Speed Gamedev Rpg"
+run/main_scene="res://Src/Scenes/BattleScene.tscn"
+config/icon="res://icon.png"
+
+[display]
+
+window/size/width=240
+window/size/height=135
+window/size/test_width=720
+window/size/test_height=405
+window/stretch/mode="viewport"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
