@@ -24,5 +24,4 @@ func create_damage_number():
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == "Dying":
-		print("goodbye")
 		emit_signal("dead")

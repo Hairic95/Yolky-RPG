@@ -5,11 +5,15 @@ var battlemenu_action_button_reference = load("res://Src/UIComponents/BattleMenu
 
 func _ready():
 	
+	randomize()
+	
 	BattleTurnHandler.connect("action_selected", self, "set_selected_action")
 	BattleTurnHandler.connect("combatant_selected", self, "set_selected_combatant")
 	BattleTurnHandler.connect("combat_animation_ended", self, "combat_animation_ended")
 	BattleTurnHandler.connect("damage_targets", self, "start_target_combatants_damage_animation")
 	BattleTurnHandler.connect("combatant_died", self, "remove_combatant")
+	
+	BattleTurnHandler.connect("ai_chooses_action_and_combatant", self, "start_action")
 	
 	BattleTurnHandler.connect("create_popup_at", self, "create_combatant_popup_at")
 	
@@ -39,7 +43,7 @@ func test():
 		if i < 4:
 			pos_path = str("Combatants/Positions/PlayerPos", i)
 			new_combatant.player_owner = "player"
-			new_combatant.row_position = i
+			new_combatant.row_position = 4 - i
 		else:
 			pos_path = str("Combatants/Positions/EnemyPos", i - 3)
 			new_combatant.scale = Vector2(-1, 1)
@@ -76,21 +80,19 @@ func new_combatant_round():
 	
 	if current_combatant.player_owner == "enemy":
 		
-		# TODO Implement enemy logic and action selection
+		# TODO Implement enemy logic and action selectio
 		
-		new_combatant_round()
-		return
+		current_combatant.act($Combatants/Entities.get_children())
 	else:
 		$Menu/MenuHBox/MoveDetails.show()
 		$Menu/MenuHBox/MoveEffect.show()
 		reset_action_menu()
-	
-	# Set up action button
-	for action in current_combatant.actions:
-		var new_action_button = battlemenu_action_button_reference.instance()
-		new_action_button.text = action.action_name
-		new_action_button.action = action
-		$Menu/MenuHBox/Moves.add_child(new_action_button)
+		# Set up action button
+		for action in current_combatant.actions:
+			var new_action_button = battlemenu_action_button_reference.instance()
+			new_action_button.text = action.action_name
+			new_action_button.action = action
+			$Menu/MenuHBox/Moves.add_child(new_action_button)
 
 func order_combatants(comb_1, comb_2) -> bool :
 	if comb_1.get_speed() > comb_2.get_speed():
@@ -154,8 +156,6 @@ func set_selected_combatant(combatant : Combatant):
 	
 	target_combatants.append(combatant)
 	
-	print(target_combatants)
-	
 	for action_button in $Menu/MenuHBox/Moves.get_children():
 		action_button.queue_free()
 	for entity in $Combatants/Entities.get_children():
@@ -164,7 +164,18 @@ func set_selected_combatant(combatant : Combatant):
 	$Menu/MenuHBox/MoveDetails.hide()
 	$Menu/MenuHBox/MoveEffect.hide()
 	
-	current_combatant.attack_to_position(combatant.position)
+	start_action(current_combatant, selected_action, target_combatants)
+
+# Call this to execute the action
+func start_action(attacker : Combatant, action_to_execute : Action, targets : Array):
+	
+	for target in targets:
+		target.get_hurt(selected_action.damage)
+	
+	if targets.size() > 0:
+		current_combatant.attack_to_position(targets[0].position)
+	
+	target_combatants = targets
 
 func combat_animation_ended():
 	
@@ -178,7 +189,6 @@ func get_enemy_in_position(index):
 
 func start_target_combatants_damage_animation():
 	for combatant in target_combatants:
-		combatant.get_hurt(selected_action.damage)
 		combatant.get_damaged()
 	target_combatants = []
 

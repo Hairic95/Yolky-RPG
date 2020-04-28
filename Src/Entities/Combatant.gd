@@ -96,8 +96,12 @@ func attack_enemy():
 
 func attack_to_position(attack_position : Vector2):
 	if !is_playing_animation:
-		add_new_animation(attack_position + Vector2(-20, 0), "Moving")
-		add_new_animation(attack_position + Vector2(-15, 0), "Attacking")
+		if player_owner == "player":
+			add_new_animation(attack_position + Vector2(-20, 0), "Moving")
+			add_new_animation(attack_position + Vector2(-15, 0), "Attacking")
+		elif player_owner == "enemy":
+			add_new_animation(attack_position + Vector2(20, 0), "Moving")
+			add_new_animation(attack_position + Vector2(15, 0), "Attacking")
 		add_new_animation(Vector2.ZERO, "Idle")
 		play_first_animation()
 		z_index = 2
@@ -142,3 +146,20 @@ func create_popup(type):
 
 func delete_on_death():
 	BattleTurnHandler.emit_signal("combatant_died", self)
+
+# AI 
+
+func act(possible_targets : Array):
+	
+	var action_selected = actions[randi()%actions.size()]
+	
+	var choosable_targets = []
+	for target in possible_targets:
+		if action_selected.target[target.row_position - 1] == "#" and target.player_owner == "player":
+			choosable_targets.append(target)
+	
+	var actual_targets = []
+	actual_targets.append(choosable_targets[randi()%choosable_targets.size()])
+	
+	BattleTurnHandler.emit_signal("ai_chooses_action_and_combatant", self, action_selected, actual_targets)
+	
