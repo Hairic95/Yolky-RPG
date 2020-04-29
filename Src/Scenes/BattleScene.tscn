@@ -197,9 +197,9 @@ margin_right = 182.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 54, 0 )
 
-[node name="Popups" type="Node2D" parent="."]
+[node name="Writings" type="Node2D" parent="."]
 
-[node name="BattleResult" type="Label" parent="."]
+[node name="BattleResult" type="Label" parent="Writings"]
 visible = false
 margin_left = 64.0
 margin_top = 8.0

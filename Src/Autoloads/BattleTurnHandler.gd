@@ -10,5 +10,6 @@ signal ai_chooses_action_and_combatant(attacker, action, targets)
 signal combatant_died(combatant)
 
 signal create_popup_at(type, text, start_pos)
+signal action_popup_ended()
 
 signal battle_ended(win_result)

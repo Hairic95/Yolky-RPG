@@ -2,6 +2,7 @@ extends Reference
 class_name Action
 
 var action_name : String = ""
+var action_type : String = ""
 var damage : int = 0
 var target : Array = []
 var type : String = ""
@@ -19,4 +20,6 @@ func _init(dict_data : Dictionary):
 		type = dict_data.type
 	if dict_data.has("effects"):
 		effects = dict_data.effects
+	if dict_data.has("action_type"):
+		action_type = dict_data.action_type
 

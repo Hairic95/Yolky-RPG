@@ -56,15 +56,15 @@
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 5
+			"speed" : 6
 		},
 		"model" : "ShruumoModel",
 		"actions" : 
 		[
-			"test",
-			"test",
-			"test",
-			"test_magic"
+			"front_attack",
+			"front_attack",
+			"front_attack",
+			"front_attack"
 		]
 	},
 	"wisperina" : 
@@ -73,15 +73,15 @@
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 5
+			"speed" : 6
 		},
 		"model" : "WisperinaModel",
 		"actions" : 
 		[
-			"test",
-			"test",
-			"test_magic",
-			"test"
+			"front_attack",
+			"front_attack",
+			"front_attack",
+			"front_attack"
 		]
 	},
 	"bomborolo" : 
@@ -90,14 +90,14 @@
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 5
+			"speed" : 7
 		},
 		"model" : "BomboroloModel",
 		"actions" : 
 		[
-			"test",
-			"test",
-			"test",
+			"test_magic",
+			"test_magic",
+			"test_magic",
 			"test_magic"
 		]
 	},

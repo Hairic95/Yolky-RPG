@@ -158,8 +158,16 @@ func act(possible_targets : Array):
 		if action_selected.target[target.row_position - 1] == "#" and target.player_owner == "player":
 			choosable_targets.append(target)
 	
+	if choosable_targets.size() == 0:
+		pass_turn()
+		return
+	
 	var actual_targets = []
 	actual_targets.append(choosable_targets[randi()%choosable_targets.size()])
 	
 	BattleTurnHandler.emit_signal("ai_chooses_action_and_combatant", self, action_selected, actual_targets)
 	
+
+func pass_turn():
+	var pass_action = Action.new({"action_type" : "pass"})
+	BattleTurnHandler.emit_signal("ai_chooses_action_and_combatant", self, pass_action, [])

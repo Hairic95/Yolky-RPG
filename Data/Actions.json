@@ -1,7 +1,8 @@
 {
 	"test" : 
 	{
-		"name" : "Test Basic",		
+		"name" : "Test Basic",
+		"action_type" : "attack",
 		"damage" : 2,
 		"target" : ["#", "#", "."],
 		"type" : "Normal",
@@ -9,7 +10,8 @@
 	},
 	"test_ranged" : 
 	{
-		"name" : "Test Ranged",		
+		"name" : "Test Ranged",
+		"action_type" : "attack",	
 		"damage" : 2,
 		"target" : [".", "#", "#"],
 		"type" : "Normal",
@@ -17,10 +19,20 @@
 	},
 	"test_magic" : 
 	{
-		"name" : "Test Magic",		
+		"name" : "Test Magic",
+		"action_type" : "attack",	
 		"damage" : 10,
 		"target" : ["#", "#", "#"],
 		"type" : "Magic",
+		"effects" : [],
+	},
+	"front_attack" :
+	{
+		"name" : "Front Attack",
+		"action_type" : "attack",	
+		"damage" : 100,
+		"target" : ["#", ".", "."],
+		"type" : "Normal",
 		"effects" : [],
 	},
 }

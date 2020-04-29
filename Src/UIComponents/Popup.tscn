@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Fonts/lazypixie.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Src/UIComponents/CombatantPopup.gd" type="Script" id=2]
+[ext_resource path="res://Src/UIComponents/Popup.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 5
@@ -9,8 +9,24 @@ outline_size = 1
 outline_color = Color( 0.937255, 0.847059, 0.631373, 1 )
 font_data = ExtResource( 1 )
 
+[sub_resource type="Animation" id=3]
+resource_name = "LeftRightPopup"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Text:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1.2, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -20, -8 ), Vector2( -80, -8 ), Vector2( -80, -8 ), Vector2( -20, -8 ) ]
+}
+
 [sub_resource type="Animation" id=2]
-resource_name = "Popup"
+resource_name = "UpDownPopup"
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Text:rect_position")
@@ -25,7 +41,7 @@ tracks/0/keys = {
 "values": [ Vector2( -20, -8 ), Vector2( -20, -20 ), Vector2( -20, -8 ) ]
 }
 
-[node name="CombatantPopup" type="Node2D"]
+[node name="Popup" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Text" type="Label" parent="."]
@@ -43,5 +59,6 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Popup = SubResource( 2 )
+anims/LeftRightPopup = SubResource( 3 )
+anims/UpDownPopup = SubResource( 2 )
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

@@ -23,8 +23,8 @@ func _ready():
 	DataHandler.open_actions()
 	
 	test()
-	start_turn()
 	
+	start_turn()
 	
 	DataHandler.close_characters()
 	DataHandler.close_actions()
@@ -70,18 +70,20 @@ func start_turn():
 
 func new_combatant_round():
 	
-	check_victory_condition()
+	if check_victory_condition():
+		return
 	
 	if turn_queue.size() == 0:
 		start_turn()
 		return
 	
+	turn_queue.sort_custom(self, "order_combatants")
 	current_combatant = turn_queue.pop_front()
 	
+	for entity in $Combatants/Entities.get_children():
+		entity.disable_button(true)
+	
 	if current_combatant.player_owner == "enemy":
-		
-		# TODO Implement enemy logic and action selectio
-		
 		current_combatant.act($Combatants/Entities.get_children())
 	else:
 		$Menu/MenuHBox/MoveDetails.show()
@@ -118,9 +120,12 @@ func check_victory_condition():
 	
 	if !is_player_remaining:
 		BattleTurnHandler.emit_signal("battle_ended", false)
+		return true
 	if !is_enemy_remaining:
 		BattleTurnHandler.emit_signal("battle_ended", true)
+		return true
 	
+	return false
 
 # Current Action
 
@@ -169,13 +174,31 @@ func set_selected_combatant(combatant : Combatant):
 # Call this to execute the action
 func start_action(attacker : Combatant, action_to_execute : Action, targets : Array):
 	
-	for target in targets:
-		target.get_hurt(selected_action.damage)
+	match(action_to_execute.action_type):
+		"attack":
+			for target in targets:
+				target.get_hurt(action_to_execute.damage)
+			
+			
+			if (attacker.player_owner == "enemy"):
+				var new_popup = popup_reference.instance()
+				new_popup.position = Vector2(260, 40)
+				new_popup.set_popup(action_to_execute.action_name, "LeftRightPopup")
+				$Writings.add_child(new_popup)
+				yield(new_popup.get_node("Anim"), "animation_finished")
+			if targets.size() > 0:
+				current_combatant.attack_to_position(targets[0].position)
+			target_combatants = targets
+		"pass":
+			var new_popup = popup_reference.instance()
+			new_popup.position = attacker.position + Vector2(0, -32)
+			new_popup.set_popup("Pass", "UpDownPopup")
+			$Writings.add_child(new_popup)
+			yield(new_popup.get_node("Anim"), "animation_finished")
+			new_combatant_round()
 	
-	if targets.size() > 0:
-		current_combatant.attack_to_position(targets[0].position)
 	
-	target_combatants = targets
+	
 
 func combat_animation_ended():
 	
@@ -211,18 +234,18 @@ func reset_action_menu():
 	
 	$Menu/MenuHBox/MoveDetails/TypeIndicator/TypeValue.text = ""
 
-var combatant_popup_reference = load("res://Src/UIComponents/CombatantPopup.tscn")
+var popup_reference = load("res://Src/UIComponents/Popup.tscn")
 
 func create_combatant_popup_at(type, text, start_pos):
-	var new_combatant_popup = combatant_popup_reference.instance()
+	var new_combatant_popup = popup_reference.instance()
 	new_combatant_popup.position = start_pos
-	new_combatant_popup.set_text(text)
-	$Popups.add_child(new_combatant_popup)
+	new_combatant_popup.set_popup(text, "UpDownPopup")
+	$Writings.add_child(new_combatant_popup)
 
 # true is victory
 func show_result(value : bool):
 	if value:
-		$BattleResult.text = "You win the fight!"
+		$Writings/BattleResult.text = "You win the fight!"
 	else:
-		$BattleResult.text = "You lose..."
-	$BattleResult.visible = true
+		$Writings/BattleResult.text = "You lose..."
+	$Writings/BattleResult.visible = true
