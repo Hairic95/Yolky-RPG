@@ -151,16 +151,31 @@ func delete_on_death():
 
 func act(possible_targets : Array):
 	
-	var action_selected = actions[randi()%actions.size()]
+	# check the target position to determinate which action are possible
+	var targetable_index = []
+	for t in possible_targets:
+		if t.player_owner == "player":
+			targetable_index.append(t.row_position - 1)
+	
+	var choosable_actions = []
+	for action in actions:
+		for i in targetable_index:
+			if action.target[i] != ".":
+				choosable_actions.append(action)
+				break
+	
+	# if no action is choosable pass turn
+	if choosable_actions.size() == 0:
+		pass_turn()
+		return
+	
+	# choose one action at random
+	var action_selected = choosable_actions[randi()%choosable_actions.size()]
 	
 	var choosable_targets = []
 	for target in possible_targets:
 		if action_selected.target[target.row_position - 1] == "#" and target.player_owner == "player":
 			choosable_targets.append(target)
-	
-	if choosable_targets.size() == 0:
-		pass_turn()
-		return
 	
 	var actual_targets = []
 	actual_targets.append(choosable_targets[randi()%choosable_targets.size()])

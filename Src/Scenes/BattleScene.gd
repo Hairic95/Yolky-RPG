@@ -210,6 +210,13 @@ func get_enemy_in_position(index):
 			return entity
 	return null
 
+func get_all_players():
+	var players = []
+	for entity in $Combatants/Entities.get_children():
+		if entity.player_owner == "player":
+			players.append(entity)
+	return players
+
 func start_target_combatants_damage_animation():
 	for combatant in target_combatants:
 		combatant.get_damaged()
@@ -249,3 +256,5 @@ func show_result(value : bool):
 	else:
 		$Writings/BattleResult.text = "You lose..."
 	$Writings/BattleResult.visible = true
+
+

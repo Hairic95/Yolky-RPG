@@ -61,7 +61,7 @@
 		"model" : "ShruumoModel",
 		"actions" : 
 		[
-			"front_attack",
+			"test",
 			"front_attack",
 			"front_attack",
 			"front_attack"
@@ -95,10 +95,10 @@
 		"model" : "BomboroloModel",
 		"actions" : 
 		[
-			"test_magic",
-			"test_magic",
-			"test_magic",
-			"test_magic"
+			"front_attack",
+			"front_attack",
+			"front_attack",
+			"test_ranged"
 		]
 	},
 }
