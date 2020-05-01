@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Textures/Map/MapBG.png" type="Texture" id=1]
+[ext_resource path="res://Src/UIComponents/MapUI.gd" type="Script" id=2]
+
+[node name="MapUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+margin_bottom = 37.0
+texture = ExtResource( 1 )
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NodeContainer" type="StaticBody2D" parent="TextureRect"]
+position = Vector2( 128, 16 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TextureRect/NodeContainer"]
+polygon = PoolVector2Array( 80, -8, 80, 28, -100, 28, -100, 144, 112, 120, 148, -92, -136, -92, -184, 124, -100, 164, -100, -8 )
+
+[node name="MapElements" type="Node2D" parent="."]
+position = Vector2( 128, 16 )

@@ -22,9 +22,15 @@ func _ready():
 	DataHandler.open_characters()
 	DataHandler.open_actions()
 	
-	test()
+	$MapUI.connect("map_loaded", self, "show_map")
 	
-	start_turn()
+	# map test
+	test_map()
+	
+	#battleTest
+	#test()
+	
+	#start_turn()
 	
 	DataHandler.close_characters()
 	DataHandler.close_actions()
@@ -32,6 +38,42 @@ func _ready():
 # Generation : TODO
 
 # _Test
+
+func _input(ev):
+	if ev is InputEventKey:
+		if ev.scancode == KEY_SPACE and ev.pressed and !$MapUI.is_generating:
+			hide_map()
+
+func hide_map():
+	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, -50), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$MapUI/MapTween.start()
+	yield($MapUI/MapTween, "tween_all_completed")
+	$MapUI.generate_map()
+
+func test_map():
+	
+	var i = 1
+	for chr in DataHandler.characters_data.values():
+		
+		var new_combatant : Combatant = combatant_reference.instance()
+		var pos_path : NodePath = "."
+		if i < 4:
+			pos_path = str("Combatants/Positions/PlayerPos", i)
+			new_combatant.player_owner = "player"
+			new_combatant.row_position = 4 - i
+		else:
+			break
+		
+		
+		new_combatant.Combatant(chr, get_node(pos_path).position)
+		
+		$Combatants/Entities.add_child(new_combatant)
+		i += 1
+	
+	$MapUI.generate_map()
+func show_map():
+	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, 0), 0.4, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$MapUI/MapTween.start()
 
 func test():
 	
