@@ -58,7 +58,6 @@ func generate_map():
 	is_generating = false
 	
 	emit_signal("map_loaded")
-	
 
 func add_sprites():
 	for p in node_points:

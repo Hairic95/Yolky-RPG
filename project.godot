@@ -33,7 +33,9 @@ _global_script_class_icons={
 [application]
 
 config/name="Yolky RPG"
-run/main_scene="res://Src/Scenes/BattleScene.tscn"
+run/main_scene="res://Src/Scenes/MainMenuScene.tscn"
+boot_splash/image="res://Assets/Textures/splash_screen.png"
+boot_splash/bg_color=Color( 0.0823529, 0.0588235, 0.0392157, 1 )
 config/icon="res://icon.png"
 
 [autoload]
@@ -45,7 +47,7 @@ AdventureHandler="*res://Src/Autoloads/AdventureHandler.gd"
 [display]
 
 window/size/width=240
-window/size/height=135
+window/size/height=144
 window/size/test_width=720
 window/size/test_height=405
 window/stretch/mode="2d"
@@ -55,4 +57,5 @@ window/stretch/mode="2d"
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_clear_color=Color( 0.0823529, 0.0588235, 0.0392157, 1 )
 environment/default_environment="res://default_env.tres"
