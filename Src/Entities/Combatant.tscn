@@ -16,4 +16,6 @@ __meta__ = {
 }
 
 [node name="MovementTween" type="Tween" parent="."]
+
+[node name="NonCombatTween" type="Tween" parent="."]
 [connection signal="pressed" from="CharacterButton" to="." method="_on_CharacterButton_pressed"]

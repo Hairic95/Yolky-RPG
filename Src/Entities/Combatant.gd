@@ -88,11 +88,23 @@ func play_first_animation():
 	
 	model.play(anim_to_execute.anim_name)
 
+func play_non_combat_animation(anim_to_execute, final_pos = position):
+	$NonCombatTween.interpolate_property(self, "position", position, final_pos, 
+										model.get_anim_length(anim_to_execute), 
+										Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$NonCombatTween.start()
+	
+	model.play(anim_to_execute)
+
 func on_movement_tween_completed():
 	play_first_animation()
 
 func attack_enemy():
 	BattleTurnHandler.emit_signal("damage_targets")
+
+func encounter_start_movement(move_position : Vector2):
+	if !is_playing_animation:
+		play_non_combat_animation("Moving")
 
 func attack_to_position(attack_position : Vector2):
 	if !is_playing_animation:

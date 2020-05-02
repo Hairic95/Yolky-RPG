@@ -31,18 +31,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="MovementTween" type="Tween" parent="BG"]
+
 [node name="Combatants" type="Node2D" parent="."]
 
 [node name="Positions" type="Node2D" parent="Combatants"]
 
 [node name="PlayerPos1" type="Position2D" parent="Combatants/Positions"]
-position = Vector2( 24, 92 )
+position = Vector2( 88, 92 )
 
 [node name="PlayerPos2" type="Position2D" parent="Combatants/Positions"]
 position = Vector2( 56, 92 )
 
 [node name="PlayerPos3" type="Position2D" parent="Combatants/Positions"]
-position = Vector2( 88, 92 )
+position = Vector2( 24, 92 )
 
 [node name="EnemyPos1" type="Position2D" parent="Combatants/Positions"]
 position = Vector2( 152, 92 )
@@ -53,13 +55,20 @@ position = Vector2( 184, 92 )
 [node name="EnemyPos3" type="Position2D" parent="Combatants/Positions"]
 position = Vector2( 216, 92 )
 
+[node name="PlayerSpawn" type="Position2D" parent="Combatants/Positions"]
+position = Vector2( -40, 92 )
+
+[node name="EnemySpawn" type="Position2D" parent="Combatants/Positions"]
+position = Vector2( 280, 92 )
+
 [node name="Entities" type="Node2D" parent="Combatants"]
 
 [node name="Menu" type="TextureRect" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -37.0
+margin_bottom = 37.0
+mouse_filter = 2
 theme = ExtResource( 2 )
 texture = ExtResource( 3 )
 stretch_mode = 4
@@ -198,23 +207,29 @@ margin_right = 182.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 54, 0 )
 
-[node name="Writings" type="Node2D" parent="."]
+[node name="BattleHeadline" type="Node2D" parent="."]
 
-[node name="BattleResult" type="Label" parent="Writings"]
-visible = false
-margin_left = 64.0
-margin_top = 8.0
-margin_right = 176.0
-margin_bottom = 22.0
+[node name="Text" type="Label" parent="BattleHeadline"]
+margin_top = -24.0
+margin_right = 240.0
+margin_bottom = -10.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.164706, 0.113725, 0.0509804, 1 )
 text = "RESULT"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="BattleHeadline"]
 
 [node name="MapUI" parent="." instance=ExtResource( 8 )]
 anchor_bottom = 0.0
 margin_top = -64.0
 margin_bottom = -64.0
+mouse_filter = 2
 
 [node name="MapTween" type="Tween" parent="MapUI"]
+
+[node name="Writings" type="Node2D" parent="."]

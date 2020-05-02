@@ -1,3 +1,3 @@
 extends Node
 
-signal grid_tile_clicked(grid_tile)
+signal map_node_selected(map_node)

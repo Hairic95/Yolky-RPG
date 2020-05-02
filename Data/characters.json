@@ -22,7 +22,7 @@
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 5
+			"speed" : 6
 		},
 		"model" : "Yolky2Model",
 		"actions" : 
@@ -90,14 +90,14 @@
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 7
+			"speed" : 4
 		},
 		"model" : "BomboroloModel",
 		"actions" : 
 		[
-			"front_attack",
-			"front_attack",
-			"front_attack",
+			"test",
+			"test_ranged",
+			"test_ranged",
 			"test_ranged"
 		]
 	},

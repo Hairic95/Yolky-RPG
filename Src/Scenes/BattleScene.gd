@@ -7,6 +7,8 @@ func _ready():
 	
 	randomize()
 	
+	AdventureHandler.connect("map_node_selected", self, "go_to_next_encounter")
+	
 	BattleTurnHandler.connect("action_selected", self, "set_selected_action")
 	BattleTurnHandler.connect("combatant_selected", self, "set_selected_combatant")
 	BattleTurnHandler.connect("combat_animation_ended", self, "combat_animation_ended")
@@ -46,56 +48,64 @@ func _input(ev):
 
 func hide_map():
 	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, -50), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$MapUI/MapTween.interpolate_property($Menu, "rect_position", $Menu.rect_position, Vector2(0, 144 - $Menu.rect_size.y), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	
 	$MapUI/MapTween.start()
-	yield($MapUI/MapTween, "tween_all_completed")
-	$MapUI.generate_map()
 
 func test_map():
 	
 	var i = 1
-	for chr in DataHandler.characters_data.values():
-		
-		var new_combatant : Combatant = combatant_reference.instance()
-		var pos_path : NodePath = "."
-		if i < 4:
-			pos_path = str("Combatants/Positions/PlayerPos", i)
-			new_combatant.player_owner = "player"
-			new_combatant.row_position = 4 - i
-		else:
-			break
-		
-		
-		new_combatant.Combatant(chr, get_node(pos_path).position)
-		
-		$Combatants/Entities.add_child(new_combatant)
-		i += 1
+	start_adventure()
 	
 	$MapUI.generate_map()
+
 func show_map():
 	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, 0), 0.4, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$MapUI/MapTween.interpolate_property($Menu, "rect_position", $Menu.rect_position, Vector2(0, 144), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	
 	$MapUI/MapTween.start()
 
-func test():
+func start_adventure():
+	DataHandler.open_characters()
+	DataHandler.open_actions()
 	
 	var i = 1
-	for chr in DataHandler.characters_data.values():
+	for team_member in TeamHandler.current_team_data:
 		
-		var new_combatant : Combatant = combatant_reference.instance()
-		var pos_path : NodePath = "."
-		if i < 4:
-			pos_path = str("Combatants/Positions/PlayerPos", i)
-			new_combatant.player_owner = "player"
-			new_combatant.row_position = 4 - i
-		else:
-			pos_path = str("Combatants/Positions/EnemyPos", i - 3)
-			new_combatant.scale = Vector2(-1, 1)
-			new_combatant.row_position = i - 3
+		var team_member_data = DataHandler.get_character(team_member)
 		
-		new_combatant.Combatant(chr, get_node(pos_path).position)
-		
-		$Combatants/Entities.add_child(new_combatant)
-		
+		create_character_outside(team_member_data, "player", i)
 		i += 1
+	
+	
+	DataHandler.close_characters()
+	DataHandler.close_actions()
+
+func create_character_outside(character_dict : Dictionary, side : String, pos : int):
+	
+	var new_combatant : Combatant = combatant_reference.instance()
+	new_combatant.player_owner = side
+	var start_pos_path : NodePath = ""
+	var final_pos_path : NodePath = ""
+	
+	if side == "player":
+		start_pos_path = "Combatants/Positions/PlayerSpawn"
+		final_pos_path = str("Combatants/Positions/PlayerPos", pos)
+	elif side == "enemy":
+		start_pos_path = "Combatants/Positions/EnemySpawn"
+		final_pos_path = str("Combatants/Positions/EnemyPos", pos)
+		new_combatant.scale = Vector2(-1, 1)
+	
+	new_combatant.Combatant(character_dict, get_node(start_pos_path).position)
+	
+	new_combatant.row_position = pos
+	new_combatant.fixed_position = get_node(final_pos_path).position
+	
+	$Combatants/Entities.add_child(new_combatant)
+	
+	new_combatant.play_non_combat_animation("Moving", get_node(final_pos_path).position)
+	
+	return new_combatant
 
 # Turn Order
 
@@ -238,9 +248,6 @@ func start_action(attacker : Combatant, action_to_execute : Action, targets : Ar
 			$Writings.add_child(new_popup)
 			yield(new_popup.get_node("Anim"), "animation_finished")
 			new_combatant_round()
-	
-	
-	
 
 func combat_animation_ended():
 	
@@ -294,9 +301,60 @@ func create_combatant_popup_at(type, text, start_pos):
 # true is victory
 func show_result(value : bool):
 	if value:
-		$Writings/BattleResult.text = "You win the fight!"
+		show_battle_headline("You win the fight!")
 	else:
-		$Writings/BattleResult.text = "You lose..."
-	$Writings/BattleResult.visible = true
+		show_battle_headline("You lose...")
+	yield(get_tree().create_timer(1.7), "timeout")
+	show_map()
 
+# Map navigation
 
+func go_to_next_encounter(map_node):
+	
+	hide_map()
+	
+	match(map_node.encounter_type):
+		"battle":
+			
+			DataHandler.open_characters()
+			DataHandler.open_actions()
+			
+			var bg_start_pos = $BG.rect_position
+			
+			$BG/MovementTween.interpolate_property($BG, "rect_position", bg_start_pos, bg_start_pos - Vector2($BG.rect_size.x, 0), 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			$BG/MovementTween.start()
+			
+			for team_member in $Combatants/Entities.get_children():
+				team_member.play_non_combat_animation("Moving")
+			yield($BG/MovementTween, "tween_all_completed")
+			
+			var i = 1
+			for enemy_tag in map_node.encounter_data.enemies:
+				var enemy_data = DataHandler.get_character(enemy_tag)
+				var new_enemy = create_character_outside(enemy_data, "enemy", i)
+				i += 1
+			
+			$BG/MovementTween.interpolate_property($BG, "rect_position", bg_start_pos + Vector2($BG.rect_size.x, 0), bg_start_pos, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			$BG/MovementTween.start()
+			
+			yield($BG/MovementTween, "tween_all_completed")
+			
+			DataHandler.close_characters()
+			DataHandler.close_actions()
+			
+			show_battle_headline("Start Battle")
+			yield(get_tree().create_timer(1.8), "timeout")
+			
+			start_turn()
+
+func show_battle_headline(text_to_display):
+	$BattleHeadline/Text.text = text_to_display
+	$BattleHeadline/Tween.interpolate_property($BattleHeadline/Text, "rect_position", $BattleHeadline/Text.rect_position, Vector2(0, 25), 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$BattleHeadline/Tween.start()
+	yield($BattleHeadline/Tween, "tween_all_completed")
+	
+	yield(get_tree().create_timer(0.8), "timeout")
+	
+	$BattleHeadline/Tween.interpolate_property($BattleHeadline/Text, "rect_position", $BattleHeadline/Text.rect_position, Vector2(0, -25), 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$BattleHeadline/Tween.start()
+	yield($BattleHeadline/Tween, "tween_all_completed")

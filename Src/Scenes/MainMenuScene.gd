@@ -17,10 +17,8 @@ func spawn_face(dir):
 	if dir == Vector2.DOWN:
 		$LeftScroller/Spawn.add_child(new_face)
 
-
 func _on_End_area_entered(area):
 	area.queue_free()
-
 
 func _on_Enter_area_entered(area):
 	spawn_face(Vector2.DOWN)
