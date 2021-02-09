@@ -53,15 +53,16 @@ TeamHandler="*res://Src/Autoloads/TeamHandler.gd"
 
 [display]
 
-window/size/width=240
-window/size/height=144
-window/size/test_width=720
-window/size/test_height=405
-window/stretch/mode="2d"
+window/size/width=960
+window/size/height=576
+window/size/test_width=960
+window/size/test_height=576
+window/stretch/mode="viewport"
 
 [rendering]
 
 quality/driver/driver_name="GLES2"
+quality/2d/use_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_clear_color=Color( 0.0823529, 0.0588235, 0.0392157, 1 )
