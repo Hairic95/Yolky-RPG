@@ -1,13 +1,14 @@
 {
-	"yolky1" : 
+	"pandira" : 
 	{
 		"stats" :
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 5
+			"speed" : 8
 		},
-		"model" : "Yolky1Model",
+		"model" : "PandiraModel",
+		"texture": "Pandira",
 		"actions" : 
 		[
 			"test_magic",
@@ -16,15 +17,34 @@
 			"test_ranged"
 		]
 	},
-	"yolky2" : 
+	"pandira2" : 
 	{
 		"stats" :
 		{
 			"attack" : 1,
 			"maxhp" : 10,
-			"speed" : 6
+			"speed" : 8
 		},
-		"model" : "Yolky2Model",
+		"model" : "Pandira2Model",
+		"texture": "Pandira2",
+		"actions" : 
+		[
+			"test_magic",
+			"test_ranged",
+			"test",
+			"test_ranged"
+		]
+	},
+	"boevit" : 
+	{
+		"stats" :
+		{
+			"attack" : 8,
+			"maxhp" : 22,
+			"speed" : 5
+		},
+		"model" : "BoevitModel",
+		"texture": "Boevit",
 		"actions" : 
 		[
 			"test_magic",
@@ -33,15 +53,16 @@
 			"test"
 		]
 	},
-	"yolky3" : 
+	"vhrab" : 
 	{
 		"stats" :
 		{
-			"attack" : 1,
+			"attack" : 5,
 			"maxhp" : 10,
 			"speed" : 5
 		},
-		"model" : "Yolky3Model",
+		"model" : "VhrabModel",
+		"texture": "Vhrab",
 		"actions" : 
 		[
 			"test_magic",
@@ -50,15 +71,16 @@
 			"test"
 		]
 	},
-	"shruumo" : 
+	"slandle" : 
 	{
 		"stats" :
 		{
 			"attack" : 1,
-			"maxhp" : 10,
+			"maxhp" : 18,
 			"speed" : 6
 		},
-		"model" : "ShruumoModel",
+		"model" : "SlandleModel",
+		"texture": "Slandle",
 		"actions" : 
 		[
 			"test",
@@ -67,7 +89,25 @@
 			"front_attack"
 		]
 	},
-	"wisperina" : 
+	"slandle2" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 18,
+			"speed" : 6
+		},
+		"model" : "Slandle2Model",
+		"texture": "Slandle2",
+		"actions" : 
+		[
+			"test",
+			"front_attack",
+			"front_attack",
+			"front_attack"
+		]
+	},
+	"peakoli" : 
 	{
 		"stats" :
 		{
@@ -75,7 +115,26 @@
 			"maxhp" : 10,
 			"speed" : 6
 		},
-		"model" : "WisperinaModel",
+		"model" : "PeakoliModel",
+		"texture": "Peakoli",
+		"actions" : 
+		[
+			"front_attack",
+			"front_attack",
+			"front_attack",
+			"front_attack"
+		]
+	},
+	"potkin" : 
+	{
+		"stats" :
+		{
+			"attack" : 1,
+			"maxhp" : 10,
+			"speed" : 6
+		},
+		"model" : "PotkinModel",
+		"texture": "Potkin",
 		"actions" : 
 		[
 			"front_attack",
@@ -100,5 +159,5 @@
 			"test_ranged",
 			"test_ranged"
 		]
-	},
+	}
 }

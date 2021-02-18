@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/Textures/Characters/Yolky1.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/Characters/Boevit.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Models/Model.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
@@ -196,7 +196,7 @@ script = ExtResource( 2 )
 
 [node name="Image" type="Sprite" parent="."]
 texture = ExtResource( 1 )
-offset = Vector2( 0, -16 )
+offset = Vector2( 0, -34 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Attacking = SubResource( 1 )

@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 var combatant_reference = load("res://Src/Entities/Combatant.tscn")
 var battlemenu_action_button_reference = load("res://Src/UIComponents/BattleMenuActionButton.tscn")
@@ -21,49 +21,16 @@ func _ready():
 	
 	BattleTurnHandler.connect("battle_ended", self, "show_result")
 	
-	DataHandler.open_characters()
-	DataHandler.open_actions()
-	
-	$MapUI.connect("map_loaded", self, "show_map")
-	
-	# map test
-	test_map()
-	
 	#battleTest
-	#test()
+	start_adventure()
 	
-	#start_turn()
+	yield(get_tree().create_timer(1.0), "timeout")
 	
-	DataHandler.close_characters()
-	DataHandler.close_actions()
+	go_to_next_encounter()
 
 # Generation : TODO
 
 # _Test
-
-func _input(ev):
-	if ev is InputEventKey:
-		if ev.scancode == KEY_SPACE and ev.pressed and !$MapUI.is_generating:
-			hide_map()
-
-func hide_map():
-	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, -50), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$MapUI/MapTween.interpolate_property($Menu, "rect_position", $Menu.rect_position, Vector2(0, 144 - $Menu.rect_size.y), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	
-	$MapUI/MapTween.start()
-
-func test_map():
-	
-	var i = 1
-	start_adventure()
-	
-	$MapUI.generate_map()
-
-func show_map():
-	$MapUI/MapTween.interpolate_property($MapUI, "rect_position", $MapUI.rect_position, Vector2(0, 0), 0.4, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$MapUI/MapTween.interpolate_property($Menu, "rect_position", $Menu.rect_position, Vector2(0, 144), 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	
-	$MapUI/MapTween.start()
 
 func start_adventure():
 	DataHandler.open_characters()
@@ -234,7 +201,7 @@ func start_action(attacker : Combatant, action_to_execute : Action, targets : Ar
 			
 			if (attacker.player_owner == "enemy"):
 				var new_popup = popup_reference.instance()
-				new_popup.position = Vector2(260, 40)
+				new_popup.position = Vector2(OS.window_size.x + 20, 40)
 				new_popup.set_popup(action_to_execute.action_name, "LeftRightPopup")
 				$Writings.add_child(new_popup)
 				yield(new_popup.get_node("Anim"), "animation_finished")
@@ -302,50 +269,43 @@ func create_combatant_popup_at(type, text, start_pos):
 func show_result(value : bool):
 	if value:
 		show_battle_headline("You win the fight!")
+		yield(get_tree().create_timer(1.7), "timeout")
+		go_to_next_encounter()
 	else:
 		show_battle_headline("You lose...")
-	yield(get_tree().create_timer(1.7), "timeout")
-	show_map()
 
 # Map navigation
 
-func go_to_next_encounter(map_node):
+func go_to_next_encounter():
 	
-	hide_map()
 	
-	match(map_node.encounter_type):
-		"battle":
-			
-			DataHandler.open_characters()
-			DataHandler.open_actions()
-			
-			var bg_start_pos = $BG.rect_position
-			
-			$BG/MovementTween.interpolate_property($BG, "rect_position", bg_start_pos, bg_start_pos - Vector2($BG.rect_size.x, 0), 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-			$BG/MovementTween.start()
-			
-			for team_member in $Combatants/Entities.get_children():
-				team_member.play_non_combat_animation("Moving")
-			yield($BG/MovementTween, "tween_all_completed")
-			
-			var i = 1
-			for enemy_tag in map_node.encounter_data.enemies:
-				var enemy_data = DataHandler.get_character(enemy_tag)
-				var new_enemy = create_character_outside(enemy_data, "enemy", i)
-				i += 1
-			
-			$BG/MovementTween.interpolate_property($BG, "rect_position", bg_start_pos + Vector2($BG.rect_size.x, 0), bg_start_pos, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-			$BG/MovementTween.start()
-			
-			yield($BG/MovementTween, "tween_all_completed")
-			
-			DataHandler.close_characters()
-			DataHandler.close_actions()
-			
-			show_battle_headline("Start Battle")
-			yield(get_tree().create_timer(1.8), "timeout")
-			
-			start_turn()
+	var encounter_data = [
+		"vhrab",
+		"peakoli",
+		"pandira"
+	]
+	
+	DataHandler.open_characters()
+	DataHandler.open_actions()
+	
+	
+	for team_member in $Combatants/Entities.get_children():
+		team_member.play_non_combat_animation("Moving")
+	
+	var i = 1
+	for enemy_tag in encounter_data:
+		var enemy_data = DataHandler.get_character(enemy_tag)
+		var new_enemy = create_character_outside(enemy_data, "enemy", i)
+		i += 1
+	
+	
+	DataHandler.close_characters()
+	DataHandler.close_actions()
+	
+	show_battle_headline("Start Battle")
+	yield(get_tree().create_timer(1.8), "timeout")
+	
+	start_turn()
 
 func show_battle_headline(text_to_display):
 	$BattleHeadline/Text.text = text_to_display

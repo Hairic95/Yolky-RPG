@@ -14,10 +14,45 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Src/Entities/Action.gd"
 }, {
+"base": "Reference",
+"class": "AnimaEasing",
+"language": "GDScript",
+"path": "res://addons/anima/core/easings.gd"
+}, {
+"base": "Reference",
+"class": "AnimaGrid",
+"language": "GDScript",
+"path": "res://addons/anima/core/grid.gd"
+}, {
+"base": "Node",
+"class": "AnimaNode",
+"language": "GDScript",
+"path": "res://addons/anima/core/node.gd"
+}, {
+"base": "Reference",
+"class": "AnimaNodesProperties",
+"language": "GDScript",
+"path": "res://addons/anima/utils/node_properties.gd"
+}, {
+"base": "Reference",
+"class": "AnimaStrings",
+"language": "GDScript",
+"path": "res://addons/anima/utils/strings.gd"
+}, {
+"base": "Tween",
+"class": "AnimaTween",
+"language": "GDScript",
+"path": "res://addons/anima/core/tween.gd"
+}, {
 "base": "Node2D",
 "class": "Combatant",
 "language": "GDScript",
 "path": "res://Src/Entities/Combatant.gd"
+}, {
+"base": "Spatial",
+"class": "Combatant3D",
+"language": "GDScript",
+"path": "res://Src/Entities/3DCombatant.gd"
 }, {
 "base": "Node2D",
 "class": "MapNode",
@@ -28,18 +63,31 @@ _global_script_classes=[ {
 "class": "Model",
 "language": "GDScript",
 "path": "res://Assets/Models/Model.gd"
+}, {
+"base": "Node",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Src/Resources/Player.gd"
 } ]
 _global_script_class_icons={
 "Action": "",
+"AnimaEasing": "",
+"AnimaGrid": "",
+"AnimaNode": "",
+"AnimaNodesProperties": "",
+"AnimaStrings": "",
+"AnimaTween": "",
 "Combatant": "",
+"Combatant3D": "",
 "MapNode": "",
-"Model": ""
+"Model": "",
+"Player": ""
 }
 
 [application]
 
 config/name="Yolky RPG"
-run/main_scene="res://Src/Scenes/MainMenuScene.tscn"
+run/main_scene="res://Src/Scenes/3DBattleScene.tscn"
 boot_splash/image="res://Assets/Textures/splash_screen.png"
 boot_splash/bg_color=Color( 0.0823529, 0.0588235, 0.0392157, 1 )
 config/icon="res://icon.png"
@@ -53,11 +101,46 @@ TeamHandler="*res://Src/Autoloads/TeamHandler.gd"
 
 [display]
 
-window/size/width=960
-window/size/height=576
+window/size/width=480
+window/size/height=288
 window/size/test_width=960
 window/size/test_height=576
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[input]
+
+click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [rendering]
 
