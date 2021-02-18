@@ -29,11 +29,33 @@ func _ready():
 	prepare_player_critters()
 	prepare_enemies_critter()
 	
-
-func prepare_players():
+	prepare_players(
+		{
+			"type": Player.PlayerType.Player,
+			"critters": [
+				"potkin",
+				"boevit",
+				"slandle2"
+			]
+		},
+		{
+			"type": Player.PlayerType.AI,
+			"critters": [
+				"vhrab",
+				"peakoli",
+				"pandira2"
+			]
+		}
+	)
 	
-	var player_1 = Player.new()
-	var player_2 = Player.new()
+
+func prepare_players(player1_data, player2_data):
+	
+	var player1 = Player.new(player1_data.type)
+	var player2 = Player.new(player2_data.type)
+	
+	players.append(player1)
+	players.append(player2)
 	
 
 func prepare_player_critters():

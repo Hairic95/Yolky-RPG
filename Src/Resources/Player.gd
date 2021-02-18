@@ -13,9 +13,8 @@ var type = PlayerType.Player
 
 var current_critters = []
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
+func _init(player_type):
+	type = player_type
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
