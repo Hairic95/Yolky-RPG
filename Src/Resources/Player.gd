@@ -16,7 +16,7 @@ var current_critters = []
 func _init(player_type):
 	type = player_type
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func choose_action():
+	
+	var chosen_critter = current_critters
+	

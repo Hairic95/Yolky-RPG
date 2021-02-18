@@ -9,8 +9,6 @@ func _ready():
 	
 	$Camera/Anim.play("CameraTest")
 	
-	randomize()
-	
 	AdventureHandler.connect("map_node_selected", self, "go_to_next_encounter")
 	
 	BattleTurnHandler.connect("action_selected", self, "set_selected_action")
@@ -25,11 +23,7 @@ func _ready():
 	
 	BattleTurnHandler.connect("battle_ended", self, "show_result")
 	
-	#battleTest
-	prepare_player_critters()
-	prepare_enemies_critter()
-	
-	prepare_players(
+	prepare_battle(
 		{
 			"type": Player.PlayerType.Player,
 			"critters": [
@@ -49,7 +43,10 @@ func _ready():
 	)
 	
 
-func prepare_players(player1_data, player2_data):
+func prepare_battle(player1_data, player2_data):
+	
+	DataHandler.open_characters()
+	DataHandler.open_actions()
 	
 	var player1 = Player.new(player1_data.type)
 	var player2 = Player.new(player2_data.type)
@@ -57,135 +54,69 @@ func prepare_players(player1_data, player2_data):
 	players.append(player1)
 	players.append(player2)
 	
-
-func prepare_player_critters():
-	DataHandler.open_characters()
-	DataHandler.open_actions()
+	var row_position_cont = 1
+	for critter_id in player1_data.critters:
+		prepare_critter(critter_id, row_position_cont, "left_side")
+		row_position_cont += 1
 	
-	var i = 1
-	for team_member in TeamHandler.current_team_data:
-		
-		var team_member_data = DataHandler.get_character(team_member)
-		
-		create_critter(team_member_data, "player", i)
-		i += 1
-	
+	row_position_cont = 1
+	for critter_id in player2_data.critters:
+		prepare_critter(critter_id, row_position_cont, "right_side")
+		row_position_cont += 1
 	
 	DataHandler.close_characters()
 	DataHandler.close_actions()
 
-func prepare_enemies_critter():
+func prepare_critter(critter_id, row_position, side):
 	
-	
-	var encounter_data = [
-		"vhrab",
-		"peakoli",
-		"pandira2"
-	]
-	
-	DataHandler.open_characters()
-	DataHandler.open_actions()
-	
-	
-	
-	var i = 1
-	for enemy_tag in encounter_data:
-		var enemy_data = DataHandler.get_character(enemy_tag)
-		var new_enemy = create_critter(enemy_data, "enemy", i)
-		i += 1
-	
-	
-	DataHandler.close_characters()
-	DataHandler.close_actions()
-	
-	# show_battle_headline("Start Battle")
-	yield(get_tree().create_timer(1.8), "timeout")
-	
-	# start_turn()
-
-func create_critter(character_dict : Dictionary, side : String, pos : int):
+	var critter_data = DataHandler.get_character(critter_id)
 	
 	var new_combatant : Combatant3D = combatant_reference.instance()
 	new_combatant.player_owner = side
 	var pos_path : NodePath = ""
 	
-	if side == "player":
-		pos_path = str("Positions/PlayerPos", pos)
+	if side == "left_side":
+		pos_path = str("Positions/PlayerPos", row_position)
 		new_combatant.scale = Vector3(-1, 1, 1)
-	elif side == "enemy":
-		pos_path = str("Positions/EnemyPos", pos)
+	elif side == "right_side":
+		pos_path = str("Positions/EnemyPos", row_position)
 	
-	new_combatant.Combatant(character_dict, get_node(pos_path).translation)
+	new_combatant.Combatant(critter_data, get_node(pos_path).translation)
 	
-	new_combatant.row_position = pos
+	new_combatant.row_position = row_position
 	new_combatant.fixed_translation = get_node(pos_path).translation
 	
 	$Combatants.add_child(new_combatant)
-	
-	return new_combatant
 
-var camera_target = null
-
-func _on_CreatureButton_pressed(creature_pos):
+func start_round():
 	pass
 
-func _on_CreatureButton_mouse_entered(creature_pos):
-	for critter in $Combatants.get_children():
-		if critter.player_owner == "player" and critter.row_position == creature_pos:
-			critter.set_select_sprite_visible(true)
-			if camera_target != critter:
-				fix_camera_to_critter(critter.translation)
-			camera_target = critter
-			break
-	$Camera/CameraReset.stop()
-
-func _on_CreatureButton_mouse_exited(creature_pos):
-	for critter in $Combatants.get_children():
-		if critter.player_owner == "player" and critter.row_position == creature_pos:
-			critter.set_select_sprite_visible(false)
-			break
-	$Camera/CameraReset.start()
-
-func _on_TargetButton_pressed(target_pos):
-	pass # Replace with function body.
-
-func _on_TargetButton_mouse_entered(target_pos):
-	# TODO: controlla che l'azione selezionata selezioni tutti i bersagli nel caso
-	#       l'azione colpisca tutti o un alleato
-	if true:
-		for critter in $Combatants.get_children():
-			if critter.player_owner == "enemy" and critter.row_position == target_pos:
-				critter.set_select_sprite_visible(true)
-				if camera_target != critter:
-					fix_camera_to_critter(critter.translation)
-				camera_target = critter
-				break
-	$Camera/CameraReset.stop()
-
-func _on_TargetButton_mouse_exited(target_pos):
-	# TODO: controlla che l'azione selezionata selezioni tutti i bersagli nel caso
-	#       l'azione colpisca tutti o un alleato
-	if true:
-		for critter in $Combatants.get_children():
-			if critter.player_owner == "enemy" and critter.row_position == target_pos:
-				critter.set_select_sprite_visible(false)
-				break
-	$Camera/CameraReset.start()
-
-func fix_camera_to_critter(creature_translation: Vector3):
-	$Camera/Anim.stop()
-	$Camera/CameraReset.stop()
+func start_turn(player : Player):
+	if !player.can_start_turn():
+		var next_player = get_next_player(player)
+		if next_player == null:
+			start_round()
+		start_turn(next_player)
+		return
 	
-	$Camera/CameraTween.interpolate_property($Camera, "translation", $Camera.translation, Vector3(creature_translation.x, 2, -5), 0.8)
-	$Camera/CameraTween.interpolate_property($Camera, "rotation_degrees", $Camera.rotation_degrees, Vector3(-20, 180, 0),  0.8)
-	$Camera/CameraTween.start()
-
-func _on_CameraReset_timeout():
-	$Camera/CameraTween.interpolate_property($Camera, "translation", $Camera.translation, Vector3(0, 2, -7), 0.5)
-	$Camera/CameraTween.interpolate_property($Camera, "rotation_degrees", $Camera.rotation_degrees, Vector3(-15, 180, 0), 0.5)
-	$Camera/CameraTween.start()
-	camera_target = null
-	yield($Camera/CameraTween, "tween_all_completed")
+	match player.type:
+		Player.PlayerType.Player:
+			show_player_ui()
+		Player.PlayerType.AI:
+			player.choose_action()
 	
-	if camera_target == null:
-		$Camera/Anim.play("CameraTest")
+
+func get_next_player(player : Player):
+	
+	for p in players:
+		if p == player:
+			var index = players.find(p)
+			if index == players.size() - 1:
+				index = 0
+			var next_player = players[index]
+			if next_player.can_start_turn():
+				return next_player
+	return null
+
+func show_player_ui():
+	pass
