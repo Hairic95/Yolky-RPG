@@ -2,7 +2,6 @@ extends Spatial
 class_name Combatant3D
 
 # Combat Logic
-
 var current_hp : int = 1
 
 var stats : Dictionary = {
@@ -12,14 +11,14 @@ var stats : Dictionary = {
 }
 
 var row_position : int = 1
-
 var actions : Array = []
-
 var data_tag : String = ""
-
 var is_under_player_control : bool = false
-
 var player_owner = "enemy"
+
+var can_act = false
+
+var is_ko = false
 
 # Animation
 

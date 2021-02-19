@@ -7,6 +7,8 @@ var players = []
 
 func _ready():
 	
+	randomize()
+	
 	$Camera/Anim.play("CameraTest")
 	
 	AdventureHandler.connect("map_node_selected", self, "go_to_next_encounter")
@@ -25,6 +27,7 @@ func _ready():
 	
 	prepare_battle(
 		{
+			"id": "1",
 			"type": Player.PlayerType.Player,
 			"critters": [
 				"potkin",
@@ -33,6 +36,7 @@ func _ready():
 			]
 		},
 		{
+			"id": "2",
 			"type": Player.PlayerType.AI,
 			"critters": [
 				"vhrab",
@@ -42,80 +46,87 @@ func _ready():
 		}
 	)
 	
+	start_round()
 
 func prepare_battle(player1_data, player2_data):
 	
 	DataHandler.open_characters()
 	DataHandler.open_actions()
 	
-	var player1 = Player.new(player1_data.type)
-	var player2 = Player.new(player2_data.type)
+	var player1 = Player.new(player1_data.id, player1_data.type, "left")
+	var player2 = Player.new(player2_data.id, player2_data.type, "right")
 	
 	players.append(player1)
 	players.append(player2)
 	
 	var row_position_cont = 1
 	for critter_id in player1_data.critters:
-		prepare_critter(critter_id, row_position_cont, "left_side")
+		prepare_critter(critter_id, row_position_cont, player1)
 		row_position_cont += 1
 	
 	row_position_cont = 1
 	for critter_id in player2_data.critters:
-		prepare_critter(critter_id, row_position_cont, "right_side")
+		prepare_critter(critter_id, row_position_cont, player2)
 		row_position_cont += 1
 	
 	DataHandler.close_characters()
 	DataHandler.close_actions()
 
-func prepare_critter(critter_id, row_position, side):
+func prepare_critter(critter_id, row_position, player):
 	
 	var critter_data = DataHandler.get_character(critter_id)
 	
-	var new_combatant : Combatant3D = combatant_reference.instance()
-	new_combatant.player_owner = side
+	var new_critter : Combatant3D = combatant_reference.instance()
+	new_critter.player_owner = player.id
 	var pos_path : NodePath = ""
 	
-	if side == "left_side":
+	if player.side == "left":
 		pos_path = str("Positions/PlayerPos", row_position)
-		new_combatant.scale = Vector3(-1, 1, 1)
-	elif side == "right_side":
+		new_critter.scale = Vector3(-1, 1, 1)
+	elif player.side == "right":
 		pos_path = str("Positions/EnemyPos", row_position)
 	
-	new_combatant.Combatant(critter_data, get_node(pos_path).translation)
+	new_critter.Combatant(critter_data, get_node(pos_path).translation)
 	
-	new_combatant.row_position = row_position
-	new_combatant.fixed_translation = get_node(pos_path).translation
+	new_critter.row_position = row_position
+	new_critter.fixed_translation = get_node(pos_path).translation
 	
-	$Combatants.add_child(new_combatant)
+	$Critters.add_child(new_critter)
+	
+	player.critters.append(new_critter)
 
 func start_round():
-	pass
+	for critter in $Critters.get_children():
+		if !critter.is_ko:
+			critter.can_act = true
+	
+	start_turn(players[randi()%players.size()])
 
 func start_turn(player : Player):
 	if !player.can_start_turn():
 		var next_player = get_next_player(player)
 		if next_player == null:
 			start_round()
-		start_turn(next_player)
-		return
+		if next_player.can_start_turn():
+			start_turn(next_player)
+		# tie result
 	
 	match player.type:
 		Player.PlayerType.Player:
+			$UI/TestTurn.text = "Your Turn"
 			show_player_ui()
 		Player.PlayerType.AI:
+			$UI/TestTurn.text = "Opponent Turn"
 			player.choose_action()
-	
 
 func get_next_player(player : Player):
-	
 	for p in players:
 		if p == player:
 			var index = players.find(p)
 			if index == players.size() - 1:
 				index = 0
 			var next_player = players[index]
-			if next_player.can_start_turn():
-				return next_player
+			return next_player
 	return null
 
 func show_player_ui():

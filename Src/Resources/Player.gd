@@ -11,12 +11,23 @@ enum PlayerType {
 
 var type = PlayerType.Player
 
-var current_critters = []
+var critters = []
 
-func _init(player_type):
+var side : String = "left"
+
+func _init(id, player_type, field_side):
+	id = id
 	type = player_type
+	side = field_side
+
+func can_start_turn():
+	for critter in critters:
+		if critter.can_act:
+			return true
+	return false
 
 func choose_action():
 	
-	var chosen_critter = current_critters
+	var chosen_critter = critters
 	
+

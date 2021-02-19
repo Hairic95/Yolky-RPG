@@ -60,7 +60,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1 )
 [node name="EnemyPos3" type="Position3D" parent="Positions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -1 )
 
-[node name="Combatants" type="Spatial" parent="."]
+[node name="Critters" type="Spatial" parent="."]
 
 [node name="Shader" type="CanvasLayer" parent="."]
 layer = 2
@@ -89,4 +89,16 @@ one_shot = true
 [node name="CameraTween" type="Tween" parent="Camera"]
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TestTurn" type="Label" parent="UI"]
+margin_top = 256.0
+margin_right = 136.0
+margin_bottom = 286.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "YOUR TURN"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="Camera/CameraReset" to="." method="_on_CameraReset_timeout"]
