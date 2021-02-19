@@ -1,6 +1,8 @@
 extends Spatial
 class_name Combatant3D
 
+var critter_name : String = ""
+
 # Combat Logic
 var current_hp : int = 1
 
@@ -34,6 +36,8 @@ func _ready():
 
 func Combatant(dict_data : Dictionary, starting_translation : Vector3):
 	# Data setting
+	if dict_data.has("name"):
+		critter_name = dict_data.name
 	if dict_data.has("stats"):
 		if dict_data.stats.has("attack") and dict_data.stats.has("maxhp") and dict_data.stats.has("speed"):
 			stats = dict_data.stats
@@ -60,54 +64,6 @@ func add_new_animation(translation : Vector3, anim_name : String):
 	}
 	
 	animation_stack.append(new_animation)
-"""
-func play_first_animation():
-	if animation_stack.size() == 0:
-		is_playing_animation = false
-		BattleTurnHandler.emit_signal("combat_animation_ended")
-		return
-	
-	
-	is_playing_animation = true
-	
-	var anim_to_execute = animation_stack.pop_front()
-	
-	$MovementTween.interpolate_property(self, "translation", translation, anim_to_execute.pos, 
-										model.get_anim_length(anim_to_execute.anim_name), 
-										Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$MovementTween.start()
-	
-	model.play(anim_to_execute.anim_name)
-
-func play_non_combat_animation(anim_to_execute, final_translation = translation):
-	$NonCombatTween.interpolate_property(self, "translation", translation, final_translation,
-										model.get_anim_length(anim_to_execute), 
-										Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$NonCombatTween.start()
-	
-	model.play(anim_to_execute)
-"""
-func on_movement_tween_completed():
-	#play_first_animation()
-	pass
-
-func attack_enemy():
-	BattleTurnHandler.emit_signal("damage_targets")
-"""
-func encounter_start_movement(move_position : Vector2):
-	if !is_playing_animation:
-		play_non_combat_animation("Moving")
-"""
-func attack_to_position(attack_translation : Vector3):
-	if !is_playing_animation:
-		if player_owner == "player":
-			add_new_animation(attack_translation + Vector3(-20, 0, 0), "Moving")
-			add_new_animation(attack_translation + Vector3(-15, 0, 0), "Attacking")
-		elif player_owner == "enemy":
-			add_new_animation(attack_translation + Vector3(20, 0, 0), "Moving")
-			add_new_animation(attack_translation + Vector3(15, 0, 0), "Attacking")
-		add_new_animation(Vector3.ZERO, "Idle")
-		# play_first_animation()
 
 func get_damaged():
 	if current_hp > 0:
@@ -118,13 +74,6 @@ func get_damaged():
 	create_popup("damage")
 
 # Stats handling
-
-func get_speed():
-	if stats.has("speed"):
-		return stats.speed
-
-func _on_CharacterButton_pressed():
-	BattleTurnHandler.emit_signal("combatant_selected", self)
 
 func get_hurt(damage):
 	current_hp = max(current_hp - damage, 0)
@@ -182,7 +131,6 @@ func act(possible_targets : Array):
 	actual_targets.append(choosable_targets[randi()%choosable_targets.size()])
 	
 	BattleTurnHandler.emit_signal("ai_chooses_action_and_combatant", self, action_selected, actual_targets)
-	
 
 func pass_turn():
 	var pass_action = Action.new({"action_type" : "pass"})

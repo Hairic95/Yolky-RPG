@@ -1,6 +1,7 @@
 {
 	"pandira" : 
 	{
+		"name": "Pandira",
 		"stats" :
 		{
 			"attack" : 1,
@@ -19,6 +20,7 @@
 	},
 	"pandira2" : 
 	{
+		"name": "Pandira",
 		"stats" :
 		{
 			"attack" : 1,
@@ -37,6 +39,7 @@
 	},
 	"boevit" : 
 	{
+		"name": "Boevit",
 		"stats" :
 		{
 			"attack" : 8,
@@ -55,6 +58,7 @@
 	},
 	"vhrab" : 
 	{
+		"name": "Vhrab",
 		"stats" :
 		{
 			"attack" : 5,
@@ -73,6 +77,7 @@
 	},
 	"slandle" : 
 	{
+		"name": "Slandle",
 		"stats" :
 		{
 			"attack" : 1,
@@ -91,6 +96,7 @@
 	},
 	"slandle2" : 
 	{
+		"name": "Slandle",
 		"stats" :
 		{
 			"attack" : 1,
@@ -109,6 +115,7 @@
 	},
 	"peakoli" : 
 	{
+		"name": "Peakoli",
 		"stats" :
 		{
 			"attack" : 1,
@@ -127,6 +134,7 @@
 	},
 	"potkin" : 
 	{
+		"name": "Potkin",
 		"stats" :
 		{
 			"attack" : 1,
@@ -141,23 +149,6 @@
 			"front_attack",
 			"front_attack",
 			"front_attack"
-		]
-	},
-	"bomborolo" : 
-	{
-		"stats" :
-		{
-			"attack" : 1,
-			"maxhp" : 10,
-			"speed" : 4
-		},
-		"model" : "BomboroloModel",
-		"actions" : 
-		[
-			"test",
-			"test_ranged",
-			"test_ranged",
-			"test_ranged"
 		]
 	}
 }

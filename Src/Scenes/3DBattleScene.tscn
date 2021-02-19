@@ -91,13 +91,38 @@ one_shot = true
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="TestTurn" type="Label" parent="UI"]
-margin_top = 256.0
-margin_right = 136.0
-margin_bottom = 286.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 144.0
+margin_bottom = 38.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "YOUR TURN"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Critters" type="VBoxContainer" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -88.0
+margin_right = 104.0
+margin_bottom = -8.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Actions" type="VBoxContainer" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 152.0
+margin_top = -88.0
+margin_right = 248.0
+margin_bottom = -8.0
+alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

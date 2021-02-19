@@ -3,6 +3,8 @@ class_name Combatant
 
 # Combat Logic
 
+var critter_name : String = ""
+
 var current_hp : int = 1
 
 var stats : Dictionary = {

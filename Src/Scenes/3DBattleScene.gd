@@ -3,6 +3,7 @@ extends Spatial
 var combatant_reference = load("res://Src/Entities/3DCombatant.tscn")
 var battlemenu_action_button_reference = load("res://Src/UIComponents/BattleMenuActionButton.tscn")
 
+var current_player = null
 var players = []
 
 func _ready():
@@ -59,6 +60,9 @@ func prepare_battle(player1_data, player2_data):
 	players.append(player1)
 	players.append(player2)
 	
+	if player1.type == Player.PlayerType.Player:
+		current_player = player1
+	
 	var row_position_cont = 1
 	for critter_id in player1_data.critters:
 		prepare_critter(critter_id, row_position_cont, player1)
@@ -109,6 +113,7 @@ func start_turn(player : Player):
 			start_round()
 		if next_player.can_start_turn():
 			start_turn(next_player)
+			return
 		# tie result
 	
 	match player.type:
@@ -130,4 +135,23 @@ func get_next_player(player : Player):
 	return null
 
 func show_player_ui():
-	pass
+	for critter in current_player.critters:
+		var new_critter_button = Button.new()
+		new_critter_button.text = critter.critter_name
+		
+		new_critter_button.connect("pressed", self, "show_critter_actions", [critter])
+		
+		$UI/Critters.add_child(new_critter_button)
+
+func show_critter_actions(critter):
+	
+	for old_button in $UI/Actions.get_children():
+		old_button.queue_free()
+	
+	for action in critter.actions:
+		var new_action_button = Button.new()
+		new_action_button.text = action.action_name
+		
+		new_action_button.connect("pressed", self, "show_critter_actions", [critter])
+		
+		$UI/Actions.add_child(new_action_button)
