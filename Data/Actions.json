@@ -1,38 +1,103 @@
 {
-	"test" : 
+	"wax_swing" : 
 	{
-		"name" : "Test Basic",
-		"action_type" : "attack",
-		"damage" : 2,
-		"target" : ["#", "#", "."],
-		"type" : "Normal",
-		"effects" : [],
+		"name" : "Wax Swing",
+		"action_type" : "damage",
+		"uses": 5,
+		"target": "enemy_single",
+		"power" : 2,
+		"effects" : [
+			{
+				"code": "status",
+				"type": "slow",
+				"amount": 1
+			}
+		],
+		"description": "The user launches sticky wax to the target. The target is Slowed."
 	},
-	"test_ranged" : 
+	"recover" : 
 	{
-		"name" : "Test Ranged",
-		"action_type" : "attack",	
-		"damage" : 2,
-		"target" : [".", "#", "#"],
-		"type" : "Normal",
-		"effects" : [],
+		"name" : "Recover",
+		"action_type" : "effect",
+		"uses": 2,
+		"target": "self",
+		"self_effects" : [
+			{
+				"code": "heal",
+				"amount": 50
+			}
+		],
+		"description": "The user heals himself ."
+	},
+	"flaming_shot" : 
+	{
+		"name" : "Flaming Shot",
+		"action_type" : "damage",
+		"uses": 8,
+		"target": "enemy_single",
+		"power" : 7,
+		"effects" : [
+			{
+				"code": "status",
+				"type": "burn",
+				"amount": 5
+			}
+		]
+	},
+	"peak" : 
+	{
+		"name": "Peak",
+		"action_type": "damage",
+		"uses": 8,
+		"target": "enemy_single",
+		"power" : 8,
+		"self_effects" : [
+			{
+			}
+		]
+	},
+	"steam_boost" : 
+	{
+		"name": "Steam Boost",
+		"action_type": "effect",
+		"uses": 4,
+		"target": "ally_single",
+		"self_effects" : [
+			{
+				"code": "status",
+				"type": "thorns",
+				"amount": 3
+			}
+		]
+	},
+	"profume_wave" : 
+	{
+		"name": "Profume Wave",
+		"action_type": "effect",
+		"uses": 2,
+		"target": "ally_all",
+		"self_effects" : [
+			{
+				"code": "clear_status"
+			}
+		]
 	},
 	"test_magic" : 
 	{
 		"name" : "Test Magic",
-		"action_type" : "attack",	
-		"damage" : 10,
-		"target" : ["#", "#", "#"],
+		"action_type" : "damage",	
+		"power" : 10,
+		"target" : "enemy_single",
 		"type" : "Magic",
-		"effects" : [],
+		"effects" : []
 	},
 	"front_attack" :
 	{
 		"name" : "Front Attack",
-		"action_type" : "attack",	
-		"damage" : 100,
-		"target" : ["#", ".", "."],
+		"action_type" : "damage",	
+		"power" : 12,
+		"target" : "enemy_single",
 		"type" : "Normal",
-		"effects" : [],
-	},
+		"effects" : []
+	}
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Src/Entities/3DCombatant.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Textures/Characters/Peakoli.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Textures/UI/select_current.png" type="Texture" id=3]
+[ext_resource path="res://Src/Entities/BattleCritter.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Textures/UI/select_current.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/misc/shadow_small.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Textures/Characters/Peakoli.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -24,15 +25,15 @@ tracks/0/keys = {
 script = ExtResource( 1 )
 
 [node name="Image" type="Sprite3D" parent="."]
-transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 2.87288, 0, 0, 0, 3.12712, 0, 0, 0, 1, 0, 0.003, 0 )
 offset = Vector2( 0, 21 )
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 
 [node name="SelectSprite" type="Sprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 visible = false
 billboard = 2
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="MovementTween" type="Tween" parent="."]
 
@@ -40,3 +41,9 @@ texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 1 )
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0.002, 0 )
+axis = 1
+double_sided = false
+texture = ExtResource( 3 )

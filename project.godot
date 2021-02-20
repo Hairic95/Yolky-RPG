@@ -44,15 +44,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/anima/core/tween.gd"
 }, {
-"base": "Node2D",
-"class": "Combatant",
-"language": "GDScript",
-"path": "res://Src/Entities/Combatant.gd"
-}, {
 "base": "Spatial",
-"class": "Combatant3D",
+"class": "BattleCritter",
 "language": "GDScript",
-"path": "res://Src/Entities/3DCombatant.gd"
+"path": "res://Src/Entities/BattleCritter.gd"
 }, {
 "base": "Node2D",
 "class": "MapNode",
@@ -77,8 +72,7 @@ _global_script_class_icons={
 "AnimaNodesProperties": "",
 "AnimaStrings": "",
 "AnimaTween": "",
-"Combatant": "",
-"Combatant3D": "",
+"BattleCritter": "",
 "MapNode": "",
 "Model": "",
 "Player": ""
@@ -87,7 +81,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Yolky RPG"
-run/main_scene="res://Src/Scenes/3DBattleScene.tscn"
+run/main_scene="res://Src/Scenes/BattleScene.tscn"
 boot_splash/image="res://Assets/Textures/splash_screen.png"
 boot_splash/bg_color=Color( 0.0823529, 0.0588235, 0.0392157, 1 )
 config/icon="res://icon.png"
@@ -98,6 +92,7 @@ DataHandler="*res://Src/Autoloads/DataHandler.gd"
 BattleTurnHandler="*res://Src/Autoloads/BattleTurnHandler.gd"
 AdventureHandler="*res://Src/Autoloads/AdventureHandler.gd"
 TeamHandler="*res://Src/Autoloads/TeamHandler.gd"
+Constants="*res://Src/Autoloads/Constants.gd"
 
 [display]
 

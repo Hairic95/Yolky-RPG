@@ -13,9 +13,8 @@
 		"actions" : 
 		[
 			"test_magic",
-			"test_ranged",
-			"test",
-			"test_ranged"
+			"test_magic",
+			"test_magic"
 		]
 	},
 	"pandira2" : 
@@ -31,10 +30,9 @@
 		"texture": "Pandira2",
 		"actions" : 
 		[
+			"profume_wave",
 			"test_magic",
-			"test_ranged",
-			"test",
-			"test_ranged"
+			"test_magic"
 		]
 	},
 	"boevit" : 
@@ -50,10 +48,9 @@
 		"texture": "Boevit",
 		"actions" : 
 		[
+			"steam_boost",
 			"test_magic",
-			"test_ranged",
-			"test_ranged",
-			"test"
+			"test_magic"
 		]
 	},
 	"vhrab" : 
@@ -70,9 +67,8 @@
 		"actions" : 
 		[
 			"test_magic",
-			"test",
-			"test_ranged",
-			"test"
+			"test_magic",
+			"test_magic"
 		]
 	},
 	"slandle" : 
@@ -88,29 +84,27 @@
 		"texture": "Slandle",
 		"actions" : 
 		[
-			"test",
-			"front_attack",
-			"front_attack",
-			"front_attack"
+			"wax_swing",
+			"recover",
+			"flaming_shot"
 		]
 	},
-	"slandle2" : 
+	"slandle2":
 	{
 		"name": "Slandle",
 		"stats" :
 		{
-			"attack" : 1,
-			"maxhp" : 18,
-			"speed" : 6
+			"attack": 4,
+			"defense": 10,
+			"maxhp": 100
 		},
 		"model" : "Slandle2Model",
 		"texture": "Slandle2",
 		"actions" : 
 		[
-			"test",
-			"front_attack",
-			"front_attack",
-			"front_attack"
+			"wax_swing",
+			"recover",
+			"flaming_shot"
 		]
 	},
 	"peakoli" : 
@@ -126,8 +120,7 @@
 		"texture": "Peakoli",
 		"actions" : 
 		[
-			"front_attack",
-			"front_attack",
+			"peak",
 			"front_attack",
 			"front_attack"
 		]
@@ -145,7 +138,6 @@
 		"texture": "Potkin",
 		"actions" : 
 		[
-			"front_attack",
 			"front_attack",
 			"front_attack",
 			"front_attack"

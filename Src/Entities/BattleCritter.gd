@@ -1,7 +1,7 @@
 extends Spatial
-class_name Combatant3D
+class_name BattleCritter
 
-var critter_name : String = ""
+var critter_name : String = "Missing String"
 
 # Combat Logic
 var current_hp : int = 1
@@ -32,12 +32,11 @@ var is_playing_animation : bool = false
 
 func _ready():
 	$AnimationPlayer.play("Idle")
-	$MovementTween.connect("tween_all_completed", self, "on_movement_tween_completed")
 
-func Combatant(dict_data : Dictionary, starting_translation : Vector3):
+func init(dict_data : Dictionary, player : Player, starting_translation : Vector3):
+	player_owner = player.id
 	# Data setting
-	if dict_data.has("name"):
-		critter_name = dict_data.name
+	critter_name = DataHandler.get_dict_val(dict_data, "name", critter_name)
 	if dict_data.has("stats"):
 		if dict_data.stats.has("attack") and dict_data.stats.has("maxhp") and dict_data.stats.has("speed"):
 			stats = dict_data.stats
@@ -54,51 +53,13 @@ func Combatant(dict_data : Dictionary, starting_translation : Vector3):
 	fixed_translation = starting_translation
 	translation = starting_translation
 
-func add_new_animation(translation : Vector3, anim_name : String):
-	if translation == Vector3.ZERO:
-		translation = fixed_translation
-	
-	var new_animation = {
-		"pos" : translation,
-		"anim_name" : anim_name
-	}
-	
-	animation_stack.append(new_animation)
-
 func get_damaged():
 	if current_hp > 0:
 		model.play("Damaged")
 	else:
 		model.play("Dying")
-	
-	create_popup("damage")
 
-# Stats handling
-
-func get_hurt(damage):
-	current_hp = max(current_hp - damage, 0)
-	if current_hp == 0:
-		latest_damage_taken = "Dead"
-	else:
-		latest_damage_taken = str(damage)
-
-# Button
-
-func disable_button(value : bool):
-	$CharacterButton.disabled = value
-
-# Popup
-
-var latest_damage_taken : String = ""
-
-func create_popup(type):
-	BattleTurnHandler.emit_signal("create_popup_at", type, latest_damage_taken, translation + Vector3(0, -32, 0))
-
-func delete_on_death():
-	BattleTurnHandler.emit_signal("combatant_died", self)
-
-# AI 
-
+# AI
 func act(possible_targets : Array):
 	
 	# check the target position to determinate which action are possible

@@ -1,6 +1,6 @@
 extends Node
 
-var characters_path = "res://Data/Characters.json"
+var characters_path = "res://Data/Critters.json"
 var actions_path = "res://Data/Actions.json"
 
 var characters_data : Dictionary = {}
@@ -31,3 +31,9 @@ func get_character(character_id):
 func get_action(action_id):
 	if actions_data.has(action_id):
 		return actions_data[action_id]
+
+func get_dict_val(dict, key, def):
+	if dict.has(key):
+		return dict[key]
+	return def
+
