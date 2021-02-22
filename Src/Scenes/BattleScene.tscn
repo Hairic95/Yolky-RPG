@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Src/Scenes/BattleScene.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Shaders/crt_effect.tres" type="Material" id=2]
 [ext_resource path="res://Src/BattleBackgrounds/BG.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Textures/Backgrounds/placholder.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
-resource_name = "CameraTest"
 length = 8.0
 loop = true
 tracks/0/type = "value"
@@ -92,10 +92,30 @@ one_shot = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="TestTurn" type="Label" parent="UI"]
-margin_top = 8.0
-margin_right = 480.0
-margin_bottom = 38.0
+[node name="MessageBox" type="NinePatchRect" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -148.0
+margin_right = 148.0
+margin_bottom = 48.0
+texture = ExtResource( 4 )
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="UI/MessageBox"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -144.0
+margin_top = -24.0
+margin_right = 144.0
+margin_bottom = 24.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "YOUR TURN"
 align = 1

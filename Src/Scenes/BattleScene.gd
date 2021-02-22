@@ -89,6 +89,7 @@ func prepare_critter(critter_id, row_position, player):
 		new_critter.scale = Vector3(-1, 1, 1)
 	elif player.side == "right":
 		pos_path = str("Positions/EnemyPos", row_position)
+		new_critter.set_enemy_target()
 	
 	new_critter.init(critter_data, player, get_node(pos_path).translation)
 	
@@ -112,10 +113,10 @@ func start_turn():
 	hide_player_ui()
 	match current_player.type:
 		Player.PlayerType.Player:
-			$UI/TestTurn.text = "Your Turn: choose your action!"
+			$UI/MessageBox/Message.text = "Your Turn: choose your action!"
 			show_player_ui()
 		Player.PlayerType.AI:
-			$UI/TestTurn.text = "Waiting for opponent..."
+			$UI/MessageBox/Message.text = "Waiting for opponent..."
 			current_player.choose_action()
 
 func go_to_next_turn():
@@ -174,6 +175,8 @@ func show_critter_actions(critter):
 		var new_action_button = Button.new()
 		new_action_button.text = str(action.action_name, " ", action.current_uses, "/", action.max_uses)
 		new_action_button.connect("pressed", self, "show_action_targets", [critter, action])
+		if action.current_uses < 1:
+			new_action_button.disabled = true
 		$UI/ActionMenu/Actions.add_child(new_action_button)
 		critter.set_select_sprite_visible(true)
 
@@ -226,7 +229,8 @@ func execute_action(critter : BattleCritter, action : Action, targets : Array):
 	for c in $Critters.get_children():
 		c.set_select_sprite_visible(false)
 	hide_player_ui()
-	$UI/TestTurn.text = critter.critter_name + " uses " +  action.action_name + "!"
+	hide_target_selected($Critters.get_children())
+	$UI/MessageBox/Message.text = critter.critter_name + " uses " +  action.action_name + "!"
 	$Camera/Anim.stop()
 	# Move camera towards target
 	if targets.size() == 1:
@@ -248,21 +252,73 @@ func execute_action(critter : BattleCritter, action : Action, targets : Array):
 				0.4)
 		$Camera/CameraTween.start()
 		yield($Camera/CameraTween, "tween_all_completed")
+	# Execute the action
 	match action.action_type:
 		Constants.ActionTypeDamage:
-			print("damage: " + str(action.power))
+			for target in targets:
+				var damage = 1
+				var stat_type = action.stat
+				if action.stat == "adaptable":
+					if critter.get_attack() >= critter.get_special_attack():
+						stat_type = "physical"
+					else:
+						stat_type = "special"
+				if stat_type == "physical":
+					damage = int(float(action.power) * (critter.get_attack() / target.get_defense()))
+				elif stat_type == "special":
+					damage = int(float(action.power) * (critter.get_special_attack() / target.get_special_defense()))
+				target.get_hurt(max(1, damage))
 		Constants.ActionTypeEffect:
 			print("effects: " + to_json(action.effects))
+	# remove one use of the move
 	action.current_uses -= 1
+	# check if the user has any uses of their moves left, if no uses are left give only tackle.
+	# if the only move if tackle, ko the creature
+	var out_of_moves = true
+	for a in critter.actions:
+		if a.current_uses > 0:
+			out_of_moves = false
+			break
+	if out_of_moves:
+		if critter.actions.size() == 1 and critter.actions[0].id == "tackle":
+			critter.get_hurt(1000)
+		else:
+			DataHandler.open_actions()
+			critter.actions = []
+			critter.actions.append(Action.new("tackle", DataHandler.get_action("tackle")))
+			DataHandler.close_actions()
+	# the critter cannot act until next round
 	critter.can_act = false
 	yield(get_tree().create_timer(1), "timeout")
 	$Camera/Anim.play("CameraTest")
-	go_to_next_turn()
+	# go to next action
+	if !is_game_over():
+		go_to_next_turn()
 
 func show_target_selected(targets : Array):
 	for target in targets:
-		target.set_select_sprite_visible(true)
+		target.set_target_sprite_visible(true)
 
 func hide_target_selected(targets : Array):
 	for target in targets:
-		target.set_select_sprite_visible(false)
+		target.set_target_sprite_visible(false)
+
+func is_game_over() -> bool:
+	
+	var player1_critters = []
+	var player2_critters = []
+	
+	for critter in $Critters.get_children():
+		if critter.player_owner == players[0].id && !critter.is_ko:
+			player1_critters.append(critter)
+		if critter.player_owner == players[1].id && !critter.is_ko:
+			player2_critters.append(critter)
+	
+	if player1_critters.empty():
+		$UI/MessageBox/Message.text = "You have lost!"
+		return true
+	if player2_critters.empty():
+		$UI/MessageBox/Message.text = "You have won!"
+		return true
+	
+	return false

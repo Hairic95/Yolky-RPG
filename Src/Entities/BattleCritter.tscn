@@ -1,9 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Src/Entities/BattleCritter.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/UI/select_current.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Textures/misc/shadow_small.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Textures/Characters/Peakoli.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Textures/UI/TargetAlly.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Textures/UI/healthbar_front.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Textures/UI/healthbar_bg.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -21,13 +24,28 @@ tracks/0/keys = {
 "values": [ Vector3( 3, 3, 1 ), Vector3( 2.8, 3.2, 1 ), Vector3( 3.2, 2.8, 1 ) ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeBlendTree" id=3]
+graph_offset = Vector2( 2, 52.75 )
+nodes/Animation/node = SubResource( 2 )
+nodes/Animation/position = Vector2( 80, 120 )
+node_connections = [ "output", 0, "Animation" ]
+
 [node name="3DCombatant" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="Image" type="Sprite3D" parent="."]
-transform = Transform( 2.87288, 0, 0, 0, 3.12712, 0, 0, 0, 1, 0, 0.003, 0 )
+transform = Transform( 2.83333, 0, 0, 0, 3.16667, 0, 0, 0, 1, 0, 0.004, 0 )
 offset = Vector2( 0, 21 )
 texture = ExtResource( 4 )
+
+[node name="Target" type="Sprite3D" parent="."]
+transform = Transform( 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0.003, 0 )
+visible = false
+axis = 1
+texture = ExtResource( 5 )
 
 [node name="SelectSprite" type="Sprite3D" parent="."]
 transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
@@ -35,15 +53,27 @@ visible = false
 billboard = 2
 texture = ExtResource( 2 )
 
-[node name="MovementTween" type="Tween" parent="."]
-
-[node name="NonCombatTween" type="Tween" parent="."]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Anim" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 1 )
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 3 )
+anim_player = NodePath("../Anim")
+
+[node name="Shadow" type="Sprite3D" parent="."]
 transform = Transform( 5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0.002, 0 )
 axis = 1
 double_sided = false
 texture = ExtResource( 3 )
+
+[node name="HealthBar" type="Sprite3D" parent="."]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+billboard = 2
+texture = ExtResource( 7 )
+
+[node name="CurrentHealth" type="Sprite3D" parent="HealthBar"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.001 )
+billboard = 2
+texture = ExtResource( 6 )
+
+[node name="HealthTween" type="Tween" parent="HealthBar"]

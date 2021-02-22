@@ -1,11 +1,21 @@
 {
+	"tackle": {
+		"name" : "Tackle",
+		"action_type" : "damage",
+		"uses": 4,
+		"stat": "adaptable",
+		"target": "enemy_single",
+		"power" : 40,
+		"description": ""
+	},
 	"wax_swing" : 
 	{
 		"name" : "Wax Swing",
 		"action_type" : "damage",
 		"uses": 5,
+		"stat": "special",
 		"target": "enemy_single",
-		"power" : 2,
+		"power" : 20,
 		"effects" : [
 			{
 				"code": "status",
@@ -34,8 +44,9 @@
 		"name" : "Flaming Shot",
 		"action_type" : "damage",
 		"uses": 8,
+		"stat": "special",
 		"target": "enemy_single",
-		"power" : 7,
+		"power" : 70,
 		"effects" : [
 			{
 				"code": "status",
@@ -49,8 +60,9 @@
 		"name": "Peak",
 		"action_type": "damage",
 		"uses": 8,
+		"stat": "physical",
 		"target": "enemy_single",
-		"power" : 8,
+		"power" : 80,
 		"self_effects" : [
 			{
 			}
@@ -70,6 +82,22 @@
 			}
 		]
 	},
+	"dizzing_vapors" : 
+	{
+		"name": "Dizzing Vapors",
+		"action_type": "damage",
+		"uses": 4,
+		"power": 30,
+		"stat": "special",
+		"target": "enemy_all",
+		"self_effects" : [
+			{
+				"code": "status",
+				"type": "confused",
+				"amount": 2
+			}
+		]
+	},
 	"profume_wave" : 
 	{
 		"name": "Profume Wave",
@@ -86,7 +114,8 @@
 	{
 		"name" : "Test Magic",
 		"action_type" : "damage",	
-		"power" : 10,
+		"power" : 1,
+		"stat": "adaptable",
 		"target" : "enemy_single",
 		"type" : "Magic",
 		"effects" : []
@@ -95,7 +124,8 @@
 	{
 		"name" : "Front Attack",
 		"action_type" : "damage",	
-		"power" : 12,
+		"power" : 1,
+		"stat": "adaptable",
 		"target" : "enemy_single",
 		"type" : "Normal",
 		"effects" : []
