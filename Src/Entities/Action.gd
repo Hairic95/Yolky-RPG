@@ -1,25 +1,25 @@
 extends Reference
 class_name Action
 
-var action_name : String = ""
-var action_type : String = ""
-var damage : int = 0
-var target : Array = []
-var type : String = ""
+var id : String = "tackle"
+var action_name : String = "Missing string"
+var action_type : String = "damage"
+var power : int = 0
+var stat : String = "adaptable"
+var max_uses : int = 1
+var current_uses : int = 1
+var target : String = "enemy_single"
 var effects : Array = []
+var self_effects : Array = []
 
-func _init(dict_data : Dictionary):
-	
-	if dict_data.has("name"):
-		action_name = dict_data.name
-	if dict_data.has("damage"):
-		damage = dict_data.damage
-	if dict_data.has("target"):
-		target = dict_data.target
-	if dict_data.has("type"):
-		type = dict_data.type
-	if dict_data.has("effects"):
-		effects = dict_data.effects
-	if dict_data.has("action_type"):
-		action_type = dict_data.action_type
-
+func _init(action_id: String, dict_data : Dictionary):
+	id = action_id
+	action_name = DataHandler.get_dict_val(dict_data, "name", action_name)
+	action_type = DataHandler.get_dict_val(dict_data, "action_type", action_type)
+	power = DataHandler.get_dict_val(dict_data, "power", power)
+	stat = DataHandler.get_dict_val(dict_data, "stat", stat)
+	target = DataHandler.get_dict_val(dict_data, "target", target)
+	effects = DataHandler.get_dict_val(dict_data, "effects", effects)
+	self_effects = DataHandler.get_dict_val(dict_data, "self_effects", self_effects)
+	max_uses = DataHandler.get_dict_val(dict_data, "uses", max_uses)
+	current_uses = max_uses

@@ -1,0 +1,154 @@
+{
+	"pandira" : 
+	{
+		"name": "Pandira",
+		"stats" :
+		{
+			"attack" : 50,
+			"defense" : 50,
+			"special_attack" : 80,
+			"special_defense" : 120
+		},
+		"model" : "PandiraModel",
+		"texture": "Pandira",
+		"actions" : 
+		[
+			"test_magic",
+			"test_magic",
+			"test_magic"
+		]
+	},
+	"pandira2" : 
+	{
+		"name": "Pandira",
+		"stats" :
+		{
+			"attack" : 50,
+			"defense" : 50,
+			"special_attack" : 80,
+			"special_defense" : 120
+		},
+		"model" : "Pandira2Model",
+		"texture": "Pandira2",
+		"actions" : 
+		[
+			"profume_wave",
+			"test_magic",
+			"test_magic"
+		]
+	},
+	"boevit" : 
+	{
+		"name": "Boevit",
+		"stats" :
+		{
+			"attack" : 110,
+			"defense" : 110,
+			"special_attack" : 40,
+			"special_defense" : 50
+		},
+		"model" : "BoevitModel",
+		"texture": "Boevit",
+		"actions" : 
+		[
+			"steam_boost",
+			"dizzing_vapors",
+			"test_magic"
+		]
+	},
+	"vhrab" : 
+	{
+		"name": "Vhrab",
+		"stats" :
+		{
+			"attack" : 30,
+			"defense" : 140,
+			"special_attack" : 30,
+			"special_defense" : 140
+		},
+		"model" : "VhrabModel",
+		"texture": "Vhrab",
+		"actions" : 
+		[
+			"test_magic",
+			"test_magic",
+			"test_magic"
+		]
+	},
+	"slandle" : 
+	{
+		"name": "Slandle",
+		"stats" :
+		{
+			"attack" : 20,
+			"defense" : 150,
+			"special_attack" : 70,
+			"special_defense" : 70
+		},
+		"model" : "SlandleModel",
+		"texture": "Slandle",
+		"actions" : 
+		[
+			"wax_swing",
+			"recover",
+			"flaming_shot"
+		]
+	},
+	"slandle2":
+	{
+		"name": "Slandle",
+		"stats" :
+		{
+			"attack" : 20,
+			"defense" : 150,
+			"special_attack" : 70,
+			"special_defense" : 70
+		},
+		"model" : "Slandle2Model",
+		"texture": "Slandle2",
+		"actions" : 
+		[
+			"wax_swing",
+			"recover",
+			"flaming_shot"
+		]
+	},
+	"peakoli" : 
+	{
+		"name": "Peakoli",
+		"stats" :
+		{
+			"attack" : 100,
+			"defense" : 60,
+			"special_attack" : 80,
+			"special_defense" : 80
+		},
+		"model" : "PeakoliModel",
+		"texture": "Peakoli",
+		"actions" : 
+		[
+			"peak",
+			"front_attack",
+			"front_attack"
+		]
+	},
+	"potkin" : 
+	{
+		"name": "Potkin",
+		"stats" :
+		{
+			"attack" : 90,
+			"defense" : 40,
+			"special_attack" : 60,
+			"special_defense" : 90
+		},
+		"model" : "PotkinModel",
+		"texture": "Potkin",
+		"actions" : 
+		[
+			"front_attack",
+			"front_attack",
+			"front_attack"
+		]
+	}
+}
