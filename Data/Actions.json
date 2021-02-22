@@ -110,6 +110,15 @@
 			}
 		]
 	},
+	"fire_punch" : 
+	{
+		"name": "Fire Punch",
+		"action_type": "damage",
+		"stat": "physical",
+		"uses": 8,
+		"power": 70,
+		"target": "enemy_single"
+	},
 	"test_magic" : 
 	{
 		"name" : "Test Magic",

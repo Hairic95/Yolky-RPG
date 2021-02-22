@@ -34,7 +34,11 @@ func choose_action():
 		if critter.can_act:
 			possible_attackers.append(critter)
 	var chosen_critter = possible_attackers[randi()%possible_attackers.size()]
-	var choose_action = chosen_critter.actions[randi()%chosen_critter.actions.size()]
+	var possible_actions = []
+	for action in chosen_critter.actions:
+		if action.current_uses > 0:
+			possible_actions.append(action)
+	var chosen_action = possible_actions[randi()%possible_actions.size()]
 	var possible_targets = []
 	for critter in opponent_critters:
 		if !critter.is_ko:
@@ -43,6 +47,6 @@ func choose_action():
 	
 	yield(get_tree().create_timer(0.3), "timeout")
 	
-	BattleTurnHandler.emit_signal("ai_action_chosen", chosen_critter, choose_action, chosen_targets)
+	BattleTurnHandler.emit_signal("ai_action_chosen", chosen_critter, chosen_action, chosen_targets)
 	
 

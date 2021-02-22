@@ -200,19 +200,24 @@ func show_action_targets(critter : BattleCritter, action : Action):
 		"ally_all":
 			for c in $Critters.get_children():
 				if c.player_owner == critter.player_owner:
-					targets.append(c)
+					if !c.is_ko:
+						targets.append(c)
 		"enemy_all":
 			for c in $Critters.get_children():
 				if c.player_owner != critter.player_owner:
-					targets.append(c)
+					if !c.is_ko:
+						targets.append(c)
 	# single target
 	if action.target.ends_with("single") || action.target == "self":
 		for target in targets:
 			var new_target_button = Button.new()
 			new_target_button.text = target.critter_name
 			new_target_button.connect("pressed", self, "execute_action", [critter, action, [target]])
-			new_target_button.connect("mouse_entered", self, "show_target_selected", [[target]])
-			new_target_button.connect("mouse_exited", self, "hide_target_selected", [[target]])
+			if target.is_ko:
+				new_target_button.disabled = true
+			else:
+				new_target_button.connect("mouse_entered", self, "show_target_selected", [[target]])
+				new_target_button.connect("mouse_exited", self, "hide_target_selected", [[target]])
 			$UI/ActionMenu/Targets.add_child(new_target_button)
 	elif action.target.ends_with("all"):
 		var new_target_button = Button.new()
