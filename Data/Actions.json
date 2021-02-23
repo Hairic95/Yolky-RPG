@@ -64,8 +64,6 @@
 		"target": "enemy_single",
 		"power" : 80,
 		"self_effects" : [
-			{
-			}
 		]
 	},
 	"steam_boost" : 
@@ -104,9 +102,23 @@
 		"action_type": "effect",
 		"uses": 2,
 		"target": "ally_all",
-		"self_effects" : [
+		"effects" : [
 			{
-				"code": "clear_status"
+				"code": "heal",
+				"amount": 20
+			}
+		]
+	},
+	"relief" : 
+	{
+		"name": "Relief",
+		"action_type": "effect",
+		"uses": 3,
+		"target": "ally_single",
+		"effects" : [
+			{
+				"code": "heal",
+				"amount": 50
 			}
 		]
 	},

@@ -33,7 +33,7 @@
 		"actions" : 
 		[
 			"profume_wave",
-			"test_magic",
+			"relief",
 			"test_magic"
 		]
 	},
@@ -70,9 +70,9 @@
 		"texture": "Vhrab",
 		"actions" : 
 		[
-			"test_magic",
-			"test_magic",
-			"test_magic"
+			"relief",
+			"relief",
+			"dizzing_vapors"
 		]
 	},
 	"slandle" : 
@@ -128,8 +128,8 @@
 		"actions" : 
 		[
 			"peak",
-			"front_attack",
-			"front_attack"
+			"relief",
+			"relief"
 		]
 	},
 	"potkin" : 
@@ -146,9 +146,9 @@
 		"texture": "Potkin",
 		"actions" : 
 		[
-			"front_attack",
-			"front_attack",
-			"front_attack"
+			"relief",
+			"relief",
+			"relief"
 		]
 	}
 }

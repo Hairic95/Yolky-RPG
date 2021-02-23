@@ -69,6 +69,12 @@ func get_hurt(damage):
 	$HealthBar/HealthTween.start()
 	yield($HealthBar/HealthTween, "tween_all_completed")
 
+func heal(amount):
+	current_hp = min(max_hp, current_hp + amount)
+	$HealthBar/HealthTween.interpolate_property($HealthBar/CurrentHealth, "scale",
+			$HealthBar/CurrentHealth.scale, Vector3(float(current_hp) / float(max_hp), 1, 1), 0.3)
+	$HealthBar/HealthTween.start()
+
 func set_sprite():
 	$Image.offset.y = $Image.texture.get_size().y / 2
 	$SelectSprite.translation.y = 2.5

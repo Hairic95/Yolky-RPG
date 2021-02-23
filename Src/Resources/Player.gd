@@ -40,13 +40,25 @@ func choose_action():
 			possible_actions.append(action)
 	var chosen_action = possible_actions[randi()%possible_actions.size()]
 	var possible_targets = []
-	for critter in opponent_critters:
-		if !critter.is_ko:
-			possible_targets.append(critter)
-	var chosen_targets = [possible_targets[randi()%possible_targets.size()]]
+	match chosen_action.target:
+		"ally_single", "ally_all":
+			for c in critters:
+				if !c.is_ko:
+					possible_targets.append(c)
+		"enemy_single", "enemy_all":
+			for c in opponent_critters:
+				if !c.is_ko:
+					possible_targets.append(c)
+		"self":
+			possible_targets.append(chosen_critter)
 	
 	yield(get_tree().create_timer(0.3), "timeout")
 	
-	BattleTurnHandler.emit_signal("ai_action_chosen", chosen_critter, chosen_action, chosen_targets)
+	if chosen_action.target.ends_with("single"):
+		var chosen_targets = [possible_targets[randi()%possible_targets.size()]]
+		BattleTurnHandler.emit_signal("ai_action_chosen", chosen_critter, chosen_action, chosen_targets)
+	else:
+		BattleTurnHandler.emit_signal("ai_action_chosen", chosen_critter, chosen_action, possible_targets)
+	
 	
 

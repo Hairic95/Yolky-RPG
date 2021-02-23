@@ -275,6 +275,13 @@ func execute_action(critter : BattleCritter, action : Action, targets : Array):
 				target.get_hurt(max(1, damage))
 		Constants.ActionTypeEffect:
 			print("effects: " + to_json(action.effects))
+	# Apply Action effects
+	for effect in action.effects:
+		for target in targets:
+			apply_effect(effect, target)
+	for effect in action.self_effects:
+		apply_effect(effect, critter)
+	
 	# remove one use of the move
 	action.current_uses -= 1
 	# check if the user has any uses of their moves left, if no uses are left give only tackle.
@@ -299,6 +306,11 @@ func execute_action(critter : BattleCritter, action : Action, targets : Array):
 	# go to next action
 	if !is_game_over():
 		go_to_next_turn()
+
+func apply_effect(effect, target):
+	match effect.code:
+		"heal":
+			target.heal(effect.amount)
 
 func show_target_selected(targets : Array):
 	for target in targets:
