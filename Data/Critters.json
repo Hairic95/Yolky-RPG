@@ -37,9 +37,9 @@
 			"test_magic"
 		]
 	},
-	"boevit" : 
+	"bevill" : 
 	{
-		"name": "Boevit",
+		"name": "Bevill",
 		"stats" :
 		{
 			"attack" : 110,
@@ -51,7 +51,7 @@
 		"texture": "Boevit",
 		"actions" : 
 		[
-			"steam_boost",
+			"firering",
 			"dizzing_vapors",
 			"fire_punch"
 		]

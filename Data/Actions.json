@@ -131,6 +131,26 @@
 		"power": 70,
 		"target": "enemy_single"
 	},
+	"firering": {
+		"name": "Fire Ring",
+		"action_type": "damage",
+		"stat": "special",
+		"uses": 4,
+		"power": 15,
+		"target": "enemy_single",
+		"effects": [
+			{
+				"code": "status",
+				"status": "burn",
+				"amount": 3
+			},
+			{
+				"code": "status",
+				"status": "mark",
+				"amount": 3
+			}
+		]
+	},
 	"test_magic" : 
 	{
 		"name" : "Test Magic",

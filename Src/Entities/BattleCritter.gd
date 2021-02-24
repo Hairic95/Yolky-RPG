@@ -24,6 +24,8 @@ var can_act = false
 
 var is_ko = false
 
+var current_status = []
+
 # Animation
 
 var fixed_translation : Vector3 = Vector3.ZERO
@@ -89,11 +91,26 @@ func set_select_sprite_visible(value):
 func set_target_sprite_visible(value):
 	$Target.visible = value
 
+func add_stasus(status, turn_amount):
+	current_status.append({
+		"status": status,
+		"turn_amount": turn_amount
+	})
+
 func get_attack():
-	return float(DataHandler.get_dict_val(stats, "attack", 1))
+	var multiplier = 1.0
+	if is_burned():
+		multiplier /= 2.0
+	return float(DataHandler.get_dict_val(stats, "attack", 1)) * multiplier
 func get_defense():
 	return float(DataHandler.get_dict_val(stats, "defense", 1))
 func get_special_attack():
 	return float(DataHandler.get_dict_val(stats, "special_attack", 1))
 func get_special_defense():
 	return float(DataHandler.get_dict_val(stats, "special_defense", 1))
+
+func is_burned():
+	for status in current_status:
+		if status.status == "burn":
+			return true
+	return false

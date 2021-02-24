@@ -23,7 +23,7 @@ func _ready():
 			"type": Player.PlayerType.Player,
 			"critters": [
 				"pandira2",
-				"boevit",
+				"bevill",
 				"slandle2"
 			]
 		},
@@ -278,7 +278,8 @@ func execute_action(critter : BattleCritter, action : Action, targets : Array):
 	# Apply Action effects
 	for effect in action.effects:
 		for target in targets:
-			apply_effect(effect, target)
+			if !target.is_ko:
+				apply_effect(effect, target)
 	for effect in action.self_effects:
 		apply_effect(effect, critter)
 	
@@ -311,6 +312,8 @@ func apply_effect(effect, target):
 	match effect.code:
 		"heal":
 			target.heal(effect.amount)
+		"status":
+			target.add_status(effect.status, effect.amount)
 
 func show_target_selected(targets : Array):
 	for target in targets:
