@@ -114,3 +114,11 @@ func is_burned():
 		if status.status == "burn":
 			return true
 	return false
+
+func add_status(status, amount):
+	current_status.append(
+		{
+			"status": status,
+			"amount": amount
+		}
+	)

@@ -165,4 +165,5 @@ alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="timeout" from="Camera/CameraReset" to="." method="_on_CameraReset_timeout"]

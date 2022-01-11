@@ -19,7 +19,7 @@
 		"effects" : [
 			{
 				"code": "status",
-				"type": "slow",
+				"status": "slow",
 				"amount": 1
 			}
 		],
@@ -50,7 +50,7 @@
 		"effects" : [
 			{
 				"code": "status",
-				"type": "burn",
+				"status": "burn",
 				"amount": 5
 			}
 		]
@@ -75,7 +75,7 @@
 		"self_effects" : [
 			{
 				"code": "status",
-				"type": "thorns",
+				"status": "thorns",
 				"amount": 3
 			}
 		]
@@ -91,7 +91,7 @@
 		"self_effects" : [
 			{
 				"code": "status",
-				"type": "confused",
+				"status": "confused",
 				"amount": 2
 			}
 		]
